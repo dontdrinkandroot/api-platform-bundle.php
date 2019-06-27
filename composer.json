@@ -1,0 +1,26 @@
+{
+    "name": "dontdrinkandroot/api-platform-bundle",
+    "description": "Extensions for API Platform",
+    "type": "symfony-bundle",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Philip Washington Sorst",
+            "email": "philip@sorst.net",
+            "homepage": "https://sorst.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Dontdrinkandroot\\ApiPlatformBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    }
+}
