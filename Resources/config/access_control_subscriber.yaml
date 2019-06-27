@@ -1,0 +1,7 @@
+services:
+
+    Dontdrinkandroot\ApiPlatformBundle\Security\AccessControlSubscriber:
+        arguments:
+            - '@security.authorization_checker'
+        tags:
+            - { name: 'kernel.event_subscriber' }
