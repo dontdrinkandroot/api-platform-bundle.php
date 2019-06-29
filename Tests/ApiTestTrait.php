@@ -17,6 +17,12 @@ trait ApiTestTrait
         'application/problem+json; charset=utf-8',
     ];
 
+    protected $acceptedJsonLdContentTypes = [
+        'application/ld+json',
+        'application/ld+json; charset=utf-8',
+        'application/problem+json; charset=utf-8',
+    ];
+
     protected function jsonGet(
         KernelBrowser $client,
         string $uri,
@@ -52,9 +58,10 @@ trait ApiTestTrait
         KernelBrowser $client,
         string $uri,
         array $parameters = [],
-        array $headers = []
+        array $headers = [],
+        ?array $content = null
     ): Response {
-        return $this->jsonRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers);
+        return $this->jsonRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
     protected function jsonRequest(
@@ -72,6 +79,68 @@ trait ApiTestTrait
             $parameters,
             $files,
             $this->transformJsonHeaders($headers),
+            $this->jsonEncodeContent($content)
+        );
+
+        return $client->getResponse();
+    }
+
+    protected function jsonLdGet(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = []
+    ): Response {
+        return $this->jsonLdRequest($client, Request::METHOD_GET, $uri, $parameters, $headers);
+    }
+
+    protected function jsonLdPut(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null,
+        array $files = []
+    ): Response {
+        return $this->jsonLdRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+    }
+
+    protected function jsonLdPost(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null,
+        array $files = []
+    ): Response {
+        return $this->jsonLdRequest($client, Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
+    }
+
+    protected function jsonLdDelete(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null
+    ): Response {
+        return $this->jsonLdRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
+    }
+
+    protected function jsonLdRequest(
+        KernelBrowser $client,
+        string $method,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null,
+        array $files = []
+    ): Response {
+        $client->request(
+            $method,
+            $uri,
+            $parameters,
+            $files,
+            $this->transformJsonLdHeaders($headers),
             $this->jsonEncodeContent($content)
         );
 
@@ -96,10 +165,39 @@ trait ApiTestTrait
         return $decodedContent;
     }
 
+    protected function assertJsonLdResponse(Response $response, $statusCode = 200)
+    {
+        if (Response::HTTP_NO_CONTENT !== $statusCode) {
+
+            Assert::assertTrue(
+                $this->hasJsonLdContentType($response),
+                sprintf('JSON+LD content type missing, given: %s', $response->headers->get('Content-Type'))
+            );
+        }
+
+        $content = $response->getContent();
+        $decodedContent = json_decode($content, true);
+
+        Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
+
+        return $decodedContent;
+    }
+
     private function hasJsonContentType($response)
     {
         foreach ($this->acceptedJsonContentTypes as $acceptedJsonContentType) {
             if ($response->headers->contains('Content-Type', $acceptedJsonContentType)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function hasJsonLdContentType($response)
+    {
+        foreach ($this->acceptedJsonLdContentTypes as $acceptedJsonLdContentType) {
+            if ($response->headers->contains('Content-Type', $acceptedJsonLdContentType)) {
                 return true;
             }
         }
@@ -121,6 +219,23 @@ trait ApiTestTrait
         $transformedHeaders = [
             'HTTP_ACCEPT'  => 'application/json',
             'CONTENT_TYPE' => 'application/json',
+        ];
+        foreach ($headers as $key => $value) {
+            if (strpos($key, 'PHP_') !== 0) {
+                $transformedHeaders['HTTP_' . $key] = $value;
+            } else {
+                $transformedHeaders[$key] = $value;
+            }
+        }
+
+        return $transformedHeaders;
+    }
+
+    protected function transformJsonLdHeaders(array $headers)
+    {
+        $transformedHeaders = [
+            'HTTP_ACCEPT'  => 'application/ld+json',
+            'CONTENT_TYPE' => 'application/ld+json',
         ];
         foreach ($headers as $key => $value) {
             if (strpos($key, 'PHP_') !== 0) {
