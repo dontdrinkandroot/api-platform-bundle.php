@@ -6,6 +6,7 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use Dontdrinkandroot\ApiPlatformBundle\ApiPlatform\ApiRequestAttributes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -38,7 +39,7 @@ class AccessControlSubscriber implements EventSubscriberInterface
         return [KernelEvents::REQUEST => ['performAccessControl', EventPriorities::POST_DESERIALIZE]];
     }
 
-    public function performAccessControl(GetResponseEvent $event)
+    public function performAccessControl(RequestEvent $event)
     {
         if (
             $event->getRequest()->attributes->has(ApiRequestAttributes::ATTRIBUTE_API_RESOURCE_CLASS)
