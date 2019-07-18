@@ -196,4 +196,9 @@ class ApiRequestAttributes
     {
         return self::METHOD_PUT === $this->itemOperation;
     }
+
+    public function isItemDelete(): bool
+    {
+        return self::METHOD_DELETE === $this->itemOperation;
+    }
 }

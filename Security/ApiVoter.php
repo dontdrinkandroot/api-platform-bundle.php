@@ -55,11 +55,11 @@ abstract class ApiVoter extends Voter
         return $event->getRequest()->query->get($name);
     }
 
-    protected abstract function supportsOperation(ApiRequestAttributes $apiAttributes, RequestEvent $event);
+    protected abstract function supportsOperation(ApiRequestAttributes $apiAttributes, RequestEvent $event): bool ;
 
     protected abstract function isOperationGranted(
         ApiRequestAttributes $apiAttributes,
         RequestEvent $event,
         TokenInterface $token
-    );
+    ): bool ;
 }
