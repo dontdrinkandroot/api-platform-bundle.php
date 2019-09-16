@@ -98,4 +98,9 @@ abstract class CrudApiVoter extends ApiVoter
     {
         return $this->authorizationChecker->isGranted(CrudAction::DELETE, $data);
     }
+
+    public function getAuthorizationChecker(): AuthorizationCheckerInterface
+    {
+        return $this->authorizationChecker;
+    }
 }
