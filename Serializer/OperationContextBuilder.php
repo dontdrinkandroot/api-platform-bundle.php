@@ -66,6 +66,12 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
                             ? self::METHOD_GET
                             : self::METHOD_POST;
                         break;
+
+                    default:
+                        $customOperationName = $context[self::ATTRIBUTE_COLLECTION_OPERATION_NAME];
+                        $method = $normalization
+                            ? self::METHOD_GET
+                            : strtolower($request->getMethod());
                 }
                 $resourceClass = $this->getShortName($context[self::ATTRIBUTE_RESOURCE_CLASS]);
                 break;
@@ -162,8 +168,10 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
 
         $context['groups'][] = $method . '.' . $groupSuffix;
         $context['groups'][] = 'all' . '.' . $groupSuffix;
-        $context['groups'][] = (self::isReadMethod($method) ? 'read' : 'write') . '.' . $groupSuffix;
-        $context['groups'][] = self::isReadMethod($method) ? 'api_read' : 'api_write';
+
+        $readMethod = self::isReadMethod($method);
+        $context['groups'][] = ($readMethod ? 'read' : 'write') . '.' . $groupSuffix;
+        $context['groups'][] = $readMethod ? 'api_read' : 'api_write';
 
         return $context;
     }
