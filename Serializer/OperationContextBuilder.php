@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OperationContextBuilder implements SerializerContextBuilderInterface
 {
+    private const SEPARATOR = ':';
+
     const METHOD_LIST = 'list';
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -116,7 +118,7 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
 
     private static function isReadMethod(string $method): bool
     {
-        return in_array($method, self::READ_METHODS);
+        return in_array($method, self::READ_METHODS, true);
     }
 
     private function getShortName(string $class): string
@@ -158,20 +160,20 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
     ): array {
         $groupSuffix = $resourceClass;
 
-        if (null != $subresourceProperty) {
+        if (null !== $subresourceProperty) {
             $groupSuffix .= '.' . $subresourceProperty;
         }
 
-        if (null != $customOperationName) {
+        if (null !== $customOperationName) {
             $groupSuffix .= '.' . $customOperationName;
         }
 
-        $context['groups'][] = $method . '.' . $groupSuffix;
-        $context['groups'][] = 'all' . '.' . $groupSuffix;
+        $context['groups'][] = strtoupper($method) . self::SEPARATOR . $groupSuffix;
+        $context['groups'][] = 'ALL' . self::SEPARATOR . $groupSuffix;
 
         $readMethod = self::isReadMethod($method);
-        $context['groups'][] = ($readMethod ? 'read' : 'write') . '.' . $groupSuffix;
-        $context['groups'][] = $readMethod ? 'api_read' : 'api_write';
+        $context['groups'][] = ($readMethod ? 'READ' : 'WRITE') . self::SEPARATOR . $groupSuffix;
+        $context['groups'][] = $readMethod ? 'API_READ' : 'API_WRITE';
 
         return $context;
     }
