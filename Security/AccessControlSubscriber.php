@@ -30,7 +30,11 @@ class AccessControlSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [KernelEvents::REQUEST => ['performAccessControl', EventPriorities::POST_DESERIALIZE]];
+        return [
+            KernelEvents::REQUEST => [
+                ['performAccessControl', EventPriorities::POST_DESERIALIZE],
+            ],
+        ];
     }
 
     public function performAccessControl(RequestEvent $event)

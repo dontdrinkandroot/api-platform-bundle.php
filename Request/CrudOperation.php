@@ -1,13 +1,12 @@
 <?php
 
-namespace Dontdrinkandroot\ApiPlatformBundle\Security;
+namespace Dontdrinkandroot\ApiPlatformBundle\Request;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class CrudAction
+class CrudOperation
 {
-    const LIST = 'LIST';
     const CREATE = 'CREATE';
     const READ = 'READ';
     const UPDATE = 'UPDATE';
@@ -15,6 +14,6 @@ class CrudAction
 
     public static function all(): array
     {
-        return [self::LIST, self::CREATE, self::READ, self::UPDATE, self::DELETE];
+        return [self::CREATE, self::READ, self::UPDATE, self::DELETE];
     }
 }
