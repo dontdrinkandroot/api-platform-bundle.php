@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
-use Dontdrinkandroot\ApiPlatformBundle\ApiPlatform\ApiRequestAttributes;
+use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\ApiPlatformBundle\Security\ApiVoter;
 use Dontdrinkandroot\DoctrineBundle\Controller\CrudAction;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -14,10 +14,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 abstract class CrudApiVoter extends ApiVoter
 {
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
@@ -27,7 +24,7 @@ abstract class CrudApiVoter extends ApiVoter
     /**
      * {@inheritdoc}
      */
-    protected function supportsOperation(ApiRequestAttributes $apiAttributes, RequestEvent $event): bool
+    protected function supportsOperation(ApiRequest $apiAttributes, RequestEvent $event): bool
     {
         return $apiAttributes->handlesResourceClass($this->getResourceClass());
     }
@@ -36,7 +33,7 @@ abstract class CrudApiVoter extends ApiVoter
      * {@inheritdoc}
      */
     protected function isOperationGranted(
-        ApiRequestAttributes $apiAttributes,
+        ApiRequest $apiAttributes,
         RequestEvent $event,
         TokenInterface $token
     ): bool {

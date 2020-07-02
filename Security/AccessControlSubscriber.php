@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use Dontdrinkandroot\ApiPlatformBundle\ApiPlatform\ApiRequestAttributes;
+use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -18,14 +18,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class AccessControlSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
-    /**
-     * AccessControlSubscriber constructor.
-     */
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
@@ -42,7 +36,7 @@ class AccessControlSubscriber implements EventSubscriberInterface
     public function performAccessControl(RequestEvent $event)
     {
         if (
-            $event->getRequest()->attributes->has(ApiRequestAttributes::ATTRIBUTE_API_RESOURCE_CLASS)
+            $event->getRequest()->attributes->has(ApiRequest::ATTRIBUTE_API_RESOURCE_CLASS)
             && !$this->authorizationChecker->isGranted(ApiVoter::SECURITY_ATTRIBUTE, $event)
         ) {
             throw new AccessDeniedException();

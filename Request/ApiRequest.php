@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\ApiPlatformBundle\ApiPlatform;
+namespace Dontdrinkandroot\ApiPlatformBundle\Request;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,13 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class ApiRequestAttributes
+class ApiRequest
 {
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
     const METHOD_PUT = 'put';
     const METHOD_DELETE = 'delete';
-
     const ATTRIBUTE_ID = 'id';
     const ATTRIBUTE_DATA = 'data';
     const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
@@ -24,58 +23,16 @@ class ApiRequestAttributes
     const ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME = '_api_subresource_operation_name';
     const ATTRIBUTE_ROUTE = '_route';
 
-    private $id;
+    private Request $request;
 
-    /**
-     * @var mixed
-     */
-    private $data;
-
-    /**
-     * @var string|null
-     */
-    private $resourceClass;
-
-    /**
-     * @var string|null
-     */
-    private $collectionOperation;
-
-    /**
-     * @var string|null
-     */
-    private $itemOperation;
-
-    /**
-     * @var string|null
-     */
-    private $subresourceOperation;
-
-    /**
-     * @var string
-     */
-    private $route;
-
-    public static function extract(Request $request): ApiRequestAttributes
+    public function __construct(Request $request)
     {
-        $attributes = new ApiRequestAttributes();
-        $attributes->id = $request->attributes->get(self::ATTRIBUTE_ID);
-        $attributes->data = $request->attributes->get(self::ATTRIBUTE_DATA);
-        $attributes->resourceClass = $request->attributes->get(self::ATTRIBUTE_API_RESOURCE_CLASS);
-        $attributes->collectionOperation = $request->attributes->get(self::ATTRIBUTE_API_COLLECTION_OPERATION_NAME);
-        $attributes->itemOperation = $request->attributes->get(self::ATTRIBUTE_API_ITEM_OPERATION_NAME);
-        $attributes->subresourceOperation = $request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME);
-        $attributes->route = $request->attributes->get(self::ATTRIBUTE_ROUTE);
-
-        return $attributes;
+        $this->request = $request;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->request->attributes->get(self::ATTRIBUTE_ID);
     }
 
     /**
@@ -83,39 +40,27 @@ class ApiRequestAttributes
      */
     public function getData()
     {
-        return $this->data;
+        return $this->request->attributes->get(self::ATTRIBUTE_DATA);
     }
 
-    /**
-     * @return null|string
-     */
     public function getResourceClass(): ?string
     {
-        return $this->resourceClass;
+        return $this->request->attributes->get(self::ATTRIBUTE_API_RESOURCE_CLASS);
     }
 
-    /**
-     * @return null|string
-     */
     public function getCollectionOperation(): ?string
     {
-        return $this->collectionOperation;
+        return $this->request->attributes->get(self::ATTRIBUTE_API_COLLECTION_OPERATION_NAME);
     }
 
-    /**
-     * @return null|string
-     */
     public function getItemOperation(): ?string
     {
-        return $this->itemOperation;
+        return $this->request->attributes->get(self::ATTRIBUTE_API_ITEM_OPERATION_NAME);
     }
 
-    /**
-     * @return null|string
-     */
     public function getSubresourceOperation(): ?string
     {
-        return $this->subresourceOperation;
+        return $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME);
     }
 
     /**
@@ -123,7 +68,7 @@ class ApiRequestAttributes
      */
     public function handlesResourceClass(string $resourceClass): bool
     {
-        return $resourceClass === $this->resourceClass;
+        return $resourceClass === $this->getResourceClass();
     }
 
     /**
@@ -145,7 +90,7 @@ class ApiRequestAttributes
      */
     public function getRoute(): string
     {
-        return $this->route;
+        return $this->request->attributes->get(self::ATTRIBUTE_ROUTE);
     }
 
     public function handlesRoute(string $route): bool
@@ -179,26 +124,26 @@ class ApiRequestAttributes
 
     public function isCollectionGet(): bool
     {
-        return self::METHOD_GET === $this->collectionOperation;
+        return self::METHOD_GET === $this->getCollectionOperation();
     }
 
     public function isCollectionPost(): bool
     {
-        return self::METHOD_POST === $this->collectionOperation;
+        return self::METHOD_POST === $this->getCollectionOperation();
     }
 
     public function isItemGet(): bool
     {
-        return self::METHOD_GET === $this->itemOperation;
+        return self::METHOD_GET === $this->getItemOperation();
     }
 
     public function isItemPut(): bool
     {
-        return self::METHOD_PUT === $this->itemOperation;
+        return self::METHOD_PUT === $this->getItemOperation();
     }
 
     public function isItemDelete(): bool
     {
-        return self::METHOD_DELETE === $this->itemOperation;
+        return self::METHOD_DELETE === $this->getItemOperation();
     }
 }

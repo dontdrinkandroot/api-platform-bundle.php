@@ -31,10 +31,7 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
     const ATTRIBUTE_ITEM_OPERATION_NAME = 'item_operation_name';
     const ATTRIBUTE_SUBRESOURCE_RESOURCES = 'subresource_resources';
 
-    /**
-     * @var SerializerContextBuilderInterface
-     */
-    private $decoratedBuilder;
+    private SerializerContextBuilderInterface $decoratedBuilder;
 
     public function __construct(SerializerContextBuilderInterface $decoratedBuilder)
     {

@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
-use Dontdrinkandroot\ApiPlatformBundle\ApiPlatform\ApiRequestAttributes;
+use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -30,7 +30,7 @@ abstract class ApiVoter extends Voter
             return false;
         }
 
-        $apiAttributes = ApiRequestAttributes::extract($subject->getRequest());
+        $apiAttributes = new ApiRequest($subject->getRequest());
 
         return $this->supportsOperation($apiAttributes, $subject);
     }
@@ -40,8 +40,8 @@ abstract class ApiVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        /** @var RequestEvent $subject */
-        $apiAttributes = ApiRequestAttributes::extract($subject->getRequest());
+        assert($subject instanceof RequestEvent);
+        $apiAttributes = new ApiRequest($subject->getRequest());
 
         return $this->isOperationGranted(
             $apiAttributes,
@@ -55,11 +55,11 @@ abstract class ApiVoter extends Voter
         return $event->getRequest()->query->get($name);
     }
 
-    protected abstract function supportsOperation(ApiRequestAttributes $apiAttributes, RequestEvent $event): bool ;
+    protected abstract function supportsOperation(ApiRequest $apiAttributes, RequestEvent $event): bool;
 
     protected abstract function isOperationGranted(
-        ApiRequestAttributes $apiAttributes,
+        ApiRequest $apiAttributes,
         RequestEvent $event,
         TokenInterface $token
-    ): bool ;
+    ): bool;
 }

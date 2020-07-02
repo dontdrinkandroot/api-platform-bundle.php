@@ -7,6 +7,7 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Security;
  */
 class CrudAction
 {
+    const LIST = 'LIST';
     const CREATE = 'CREATE';
     const READ = 'READ';
     const UPDATE = 'UPDATE';
@@ -14,6 +15,6 @@ class CrudAction
 
     public static function all(): array
     {
-        return [self::CREATE, self::READ, self::UPDATE, self::DELETE];
+        return [self::LIST, self::CREATE, self::READ, self::UPDATE, self::DELETE];
     }
 }
