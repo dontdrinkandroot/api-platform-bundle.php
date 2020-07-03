@@ -36,7 +36,7 @@ class ApiRequest
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
     public function getData()
     {
@@ -66,18 +66,26 @@ class ApiRequest
     /**
      * Checks if the Request handles the given resource class.
      */
-    public function handlesResourceClass(string $resourceClass): bool
+    public function handlesResourceClass(string $resourceClass, bool $checkDataClass = false): bool
     {
-        return $resourceClass === $this->getResourceClass();
+        if ($resourceClass !== $this->getResourceClass()) {
+            return false;
+        }
+
+        if ($checkDataClass && null !== $this->getData()) {
+            return is_a($this->getData(), $resourceClass);
+        }
+
+        return true;
     }
 
     /**
      * Checks if the Request handles one of the given resource classes
      */
-    public function handlesOneResourceClass(array $resourceClasses): bool
+    public function handlesOneOfTheResourceClasses(array $resourceClasses, bool $checkDataClass = false): bool
     {
         foreach ($resourceClasses as $resourceClass) {
-            if ($this->handlesResourceClass($resourceClass)) {
+            if ($this->handlesResourceClass($resourceClass, $checkDataClass)) {
                 return true;
             }
         }
@@ -85,9 +93,6 @@ class ApiRequest
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getRoute(): string
     {
         return $this->request->attributes->get(self::ATTRIBUTE_ROUTE);
@@ -112,38 +117,53 @@ class ApiRequest
     /**
      * Checks if the Request is a create or update operation for the given resource class.
      */
-    public function isCreateOrUpdate(string $resourceClass): bool
+    public function isCreateOrUpdate(string $resourceClass = null, bool $checkDataClass = true): bool
     {
-        return $this->handlesData($resourceClass) && ($this->isCollectionPost() || $this->isItemPut());
+        return $this->isCollectionPost($resourceClass, $checkDataClass) || $this->isItemPut($resourceClass, $checkDataClass);
     }
 
-    public function handlesData(string $resourceClass): bool
+    public function isCollectionGet(string $resourceClass = null): bool
     {
-        return $this->handlesResourceClass($resourceClass) && is_a($this->getData(), $resourceClass);
-    }
+        if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass)) {
+            return false;
+        }
 
-    public function isCollectionGet(): bool
-    {
         return self::METHOD_GET === $this->getCollectionOperation();
     }
 
-    public function isCollectionPost(): bool
+    public function isCollectionPost(string $resourceClass = null, bool $checkDataClass = true): bool
     {
+        if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
+            return false;
+        }
+
         return self::METHOD_POST === $this->getCollectionOperation();
     }
 
-    public function isItemGet(): bool
+    public function isItemGet(string $resourceClass = null, bool $checkDataClass = true): bool
     {
+        if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
+            return false;
+        }
+
         return self::METHOD_GET === $this->getItemOperation();
     }
 
-    public function isItemPut(): bool
+    public function isItemPut(string $resourceClass = null, bool $checkDataClass = true): bool
     {
+        if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
+            return false;
+        }
+
         return self::METHOD_PUT === $this->getItemOperation();
     }
 
-    public function isItemDelete(): bool
+    public function isItemDelete(string $resourceClass = null, bool $checkDataClass = true): bool
     {
+        if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
+            return false;
+        }
+
         return self::METHOD_DELETE === $this->getItemOperation();
     }
 }
