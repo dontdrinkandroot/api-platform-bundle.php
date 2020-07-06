@@ -58,7 +58,7 @@ abstract class ApiVoter extends Voter
     protected abstract function supportsOperation(ApiRequest $apiRequest, RequestEvent $event): bool;
 
     protected abstract function isOperationGranted(
-        ApiRequest $apiAttributes,
+        ApiRequest $apiRequest,
         RequestEvent $event,
         TokenInterface $token
     ): bool;

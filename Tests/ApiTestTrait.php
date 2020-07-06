@@ -24,48 +24,43 @@ trait ApiTestTrait
     ];
 
     protected function jsonGet(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = []
     ): Response {
-        return $this->jsonRequest($client, Request::METHOD_GET, $uri, $parameters, $headers);
+        return $this->jsonRequest(Request::METHOD_GET, $uri, $parameters, $headers);
     }
 
     protected function jsonPut(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonRequest( Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonPost(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonRequest($client, Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonRequest( Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonDelete(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null
     ): Response {
-        return $this->jsonRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
+        return $this->jsonRequest( Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
     protected function jsonRequest(
-        KernelBrowser $client,
         string $method,
         string $uri,
         array $parameters = [],
@@ -73,61 +68,57 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $client->request(
+        $kernelBrowser = $this->getApiTestKernelBrowser();
+        $kernelBrowser->request(
             $method,
-            $uri,
+            $this->getApiPrefix() . $uri,
             $parameters,
             $files,
             $this->transformJsonHeaders($headers),
             $this->jsonEncodeContent($content)
         );
 
-        return $client->getResponse();
+        return $kernelBrowser->getResponse();
     }
 
     protected function jsonLdGet(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = []
     ): Response {
-        return $this->jsonLdRequest($client, Request::METHOD_GET, $uri, $parameters, $headers);
+        return $this->jsonLdRequest( Request::METHOD_GET, $uri, $parameters, $headers);
     }
 
     protected function jsonLdPut(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonLdRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonLdRequest( Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonLdPost(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonLdRequest($client, Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonLdRequest( Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonLdDelete(
-        KernelBrowser $client,
         string $uri,
         array $parameters = [],
         array $headers = [],
         ?array $content = null
     ): Response {
-        return $this->jsonLdRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
+        return $this->jsonLdRequest( Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
     protected function jsonLdRequest(
-        KernelBrowser $client,
         string $method,
         string $uri,
         array $parameters = [],
@@ -135,16 +126,17 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $client->request(
+        $kernelBrowser = $this->getApiTestKernelBrowser();
+        $kernelBrowser->request(
             $method,
-            $uri,
+            $this->getApiPrefix() . $uri,
             $parameters,
             $files,
             $this->transformJsonLdHeaders($headers),
             $this->jsonEncodeContent($content)
         );
 
-        return $client->getResponse();
+        return $kernelBrowser->getResponse();
     }
 
     protected function assertJsonResponse(Response $response, $statusCode = 200)
@@ -256,10 +248,10 @@ trait ApiTestTrait
         return $headers;
     }
 
-    protected function addBasicAuthorizationHeader(UserInterface $user, array $headers = []): array
+    protected function addBasicAuthorizationHeader(string $userName, string $password, array $headers = []): array
     {
-        $headers['PHP_AUTH_USER'] = $user->getUsername();
-        $headers['PHP_AUTH_PW'] = $user->getUsername();
+        $headers['PHP_AUTH_USER'] = $userName;
+        $headers['PHP_AUTH_PW'] = $password;
 
         return $headers;
     }
@@ -273,5 +265,9 @@ trait ApiTestTrait
         return $value;
     }
 
-    protected abstract function getContainer(): ContainerInterface;
+    protected function getApiPrefix(): string {
+        return '/api';
+    }
+
+    protected abstract function getApiTestKernelBrowser(): KernelBrowser;
 }

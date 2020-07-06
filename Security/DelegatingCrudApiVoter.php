@@ -37,32 +37,32 @@ class DelegatingCrudApiVoter extends ApiVoter
      * {@inheritdoc}
      */
     protected function isOperationGranted(
-        ApiRequest $apiAttributes,
+        ApiRequest $apiRequest,
         RequestEvent $event,
         TokenInterface $token
     ): bool {
-        $resourceClass = $apiAttributes->getResourceClass();
-        $data = $apiAttributes->getData();
+        $resourceClass = $apiRequest->getResourceClass();
+        $data = $apiRequest->getData();
 
-        if ($apiAttributes->isCollectionGet()) {
+        if ($apiRequest->isCollectionGet()) {
             return $this->authorizationChecker->isGranted(CrudOperation::READ, $resourceClass);
         }
 
-        if ($apiAttributes->isCollectionPost()) {
+        if ($apiRequest->isCollectionPost()) {
             return $this->authorizationChecker->isGranted(CrudOperation::CREATE, $data ?? $resourceClass);
         }
 
         if (null !== $data) {
 
-            if ($apiAttributes->isItemGet()) {
+            if ($apiRequest->isItemGet()) {
                 return $this->authorizationChecker->isGranted(CrudOperation::READ, $data);
             }
 
-            if ($apiAttributes->isItemPut()) {
+            if ($apiRequest->isItemPut()) {
                 return $this->authorizationChecker->isGranted(CrudOperation::UPDATE, $data);
             }
 
-            if ($apiAttributes->isItemDelete()) {
+            if ($apiRequest->isItemDelete()) {
                 return $this->authorizationChecker->isGranted(CrudOperation::DELETE, $data);
             }
         }
