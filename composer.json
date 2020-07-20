@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Dontdrinkandroot\\ApiPlatformBundle\\": ""
-        }
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "require": {
         "php": ">=7.4",
