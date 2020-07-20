@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+        backupGlobals="false"
+        colors="true"
+>
+
+    <php>
+        <ini name="memory_limit" value="-1" />
+        <env name="APP_SECRET" value="c2143e0e6fa7397bf72e127fc8ccf2b5" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="KERNEL_CLASS" value="Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\TestKernel" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
+</phpunit>
