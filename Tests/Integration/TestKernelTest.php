@@ -9,5 +9,6 @@ class TestKernelTest extends WebTestCase
     public function testIsWorking()
     {
         self::bootKernel();
+        $this->assertNotNull(self::$kernel);
     }
 }
