@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
-use Dontdrinkandroot\ApiPlatformBundle\Request\CrudOperation;
+use Dontdrinkandroot\Crud\CrudOperation;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

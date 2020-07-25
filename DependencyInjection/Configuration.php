@@ -20,13 +20,8 @@ class Configuration implements ConfigurationInterface
 
         // @formatter:off
         $rootNode->children()
-            ->arrayNode('services')
-                ->addDefaultsIfNotSet()
-                ->children()
-                    ->booleanNode('operation_context_builder')->defaultFalse()->end()
-                    ->booleanNode('access_control_subscriber')->defaultFalse()->end()
-                ->end()
-            ->end()
+            ->booleanNode('security')->defaultTrue()->end()
+            ->booleanNode('serializer')->defaultTrue()->end()
         ->end();
         // @formatter:on
 

@@ -22,6 +22,7 @@
     "require": {
         "php": ">=7.4",
         "api-platform/core": "^2.0",
+        "dontdrinkandroot/common": "dev-master",
         "symfony/config": "^4.4",
         "symfony/dependency-injection": "^4.4",
         "symfony/security-core": "^4.4",

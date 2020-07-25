@@ -5,7 +5,6 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

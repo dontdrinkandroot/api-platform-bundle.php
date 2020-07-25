@@ -20,16 +20,14 @@ class DdrApiPlatformExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/services'));
         $loader->load('services.yaml');
 
-        if (array_key_exists('services', $config)) {
-            if (true === $config['services']['operation_context_builder']) {
-                $loader->load('operation_context_builder.yaml');
-            }
-            if (true === $config['services']['access_control_subscriber']) {
-                $loader->load('access_control_subscriber.yaml');
-            }
+        if (true === $config['security']) {
+            $loader->load('security.yaml');
+        }
+        if (true === $config['serializer']) {
+            $loader->load('serializer.yaml');
         }
     }
 }

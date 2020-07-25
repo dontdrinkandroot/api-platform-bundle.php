@@ -3,7 +3,6 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -43,11 +42,7 @@ abstract class ApiVoter extends Voter
         assert($subject instanceof RequestEvent);
         $apiAttributes = new ApiRequest($subject->getRequest());
 
-        return $this->isOperationGranted(
-            $apiAttributes,
-            $subject,
-            $token
-        );
+        return $this->isOperationGranted($apiAttributes, $subject, $token);
     }
 
     protected function getQueryParameter(RequestEvent $event, string $name)
