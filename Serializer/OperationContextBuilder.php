@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OperationContextBuilder implements SerializerContextBuilderInterface
 {
-    private const SEPARATOR = ':';
+    public const SEPARATOR = ':';
 
     const METHOD_LIST = 'list';
     const METHOD_GET = 'get';
@@ -178,7 +178,7 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
         return $context;
     }
 
-    private function methodToCrudOperation(string $method): string
+    protected function methodToCrudOperation(string $method): string
     {
         switch ($method) {
             case self::METHOD_LIST:
