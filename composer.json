@@ -29,9 +29,12 @@
         "symfony/yaml": "^4.4"
     },
     "require-dev": {
+        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/orm": "^2.7",
         "phpunit/phpunit": "^8.0",
         "symfony/framework-bundle": "^4.4",
         "symfony/phpunit-bridge": "^4.4",
+        "symfony/security-bundle": "^4.4",
         "symfony/twig-bundle": "^4.4"
     },
     "suggest": {
