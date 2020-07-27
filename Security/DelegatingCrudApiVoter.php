@@ -45,7 +45,7 @@ class DelegatingCrudApiVoter extends ApiVoter
         $data = $apiRequest->getData();
 
         if ($apiRequest->isCollectionGet()) {
-            return $this->authorizationChecker->isGranted(CrudOperation::READ, $resourceClass);
+            return $this->authorizationChecker->isGranted(CrudOperation::LIST, $resourceClass);
         }
 
         if ($apiRequest->isCollectionPost()) {
