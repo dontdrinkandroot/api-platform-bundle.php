@@ -21,7 +21,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "api-platform/core": "^2.0",
+        "api-platform/core": "^2.3",
         "dontdrinkandroot/common": "dev-master",
         "symfony/config": "^4.4",
         "symfony/dependency-injection": "^4.4",
@@ -29,7 +29,7 @@
         "symfony/yaml": "^4.4"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/doctrine-bundle": "^2.0.3",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "liip/test-fixtures-bundle": "^1.0",
