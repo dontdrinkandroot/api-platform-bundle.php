@@ -1,0 +1,11 @@
+services:
+
+    _defaults:
+        autoconfigure: true
+        autowire: true
+
+    Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\:
+        resource: '../Repository'
+
+    Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security\:
+        resource: '../Security'
