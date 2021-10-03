@@ -17,6 +17,9 @@ jobs:
                 php-version:
                     - "7.4"
                     - "8.0"
+                deps:
+                    - "highest"
+                    - "lowest"
 
         steps:
             -   name: "Checkout"
@@ -25,6 +28,7 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
+                    dependency-versions: "${{ matrix.deps }}"
                     coverage: "pcov"
                     ini-values: "zend.assertions=1"
             -   name: "Install dependencies with Composer"
