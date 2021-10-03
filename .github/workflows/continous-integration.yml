@@ -28,10 +28,12 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
-                    dependency-versions: "${{ matrix.deps }}"
+
                     coverage: "pcov"
                     ini-values: "zend.assertions=1"
             -   name: "Install dependencies with Composer"
                 uses: "ramsey/composer-install@v1"
+                with:
+                    dependency-versions: "${{ matrix.deps }}"
             -   name: "Run PHPUnit"
                 run: "vendor/bin/phpunit"
