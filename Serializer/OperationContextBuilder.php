@@ -3,14 +3,11 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Serializer;
 
 use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
-use Dontdrinkandroot\Crud\CrudOperation;
+use Dontdrinkandroot\Common\CrudOperation;
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class OperationContextBuilder implements SerializerContextBuilderInterface
 {
     public const SEPARATOR = ':';

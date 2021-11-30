@@ -3,14 +3,11 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
-use Dontdrinkandroot\Crud\CrudOperation;
+use Dontdrinkandroot\Common\CrudOperation;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class DelegatingCrudApiVoter extends ApiVoter
 {
     private AuthorizationCheckerInterface $authorizationChecker;

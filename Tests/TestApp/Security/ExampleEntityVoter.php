@@ -3,13 +3,10 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\ExampleEntity;
-use Dontdrinkandroot\Crud\CrudOperation;
+use Dontdrinkandroot\Common\CrudOperation;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ExampleEntityVoter extends Voter
 {
     /**
