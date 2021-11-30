@@ -2,20 +2,24 @@ name: "Continuous Integration"
 
 on: push
 
-env:
-    fail-fast: false
+
 
 jobs:
     phpunit:
         name: "PHPUnit"
         runs-on: "ubuntu-20.04"
-
+        env:
+            fail-fast: false
+            SYMFONY_REQUIRE: ${{matrix.symfony-require}}
         strategy:
             matrix:
                 php-version:
                     - "7.4"
                     - "8.0"
                     - "8.1"
+                symfony-require:
+                    - "4.4.*"
+                    - "5.4.*"
                 deps:
                     - "highest"
                     - "lowest"
@@ -33,5 +37,7 @@ jobs:
                 uses: "ramsey/composer-install@v1"
                 with:
                     dependency-versions: "${{ matrix.deps }}"
+            -   name: "Globally install symfony/flex"
+                run: "composer global require --no-progress --no-scripts --no-plugins symfony/flex"
             -   name: "Run PHPUnit"
                 run: "vendor/bin/phpunit"
