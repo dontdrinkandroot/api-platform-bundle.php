@@ -3,7 +3,7 @@ name: "Continuous Integration"
 on: push
 
 env:
-    fail-fast: true
+    fail-fast: false
 
 jobs:
     phpunit:
