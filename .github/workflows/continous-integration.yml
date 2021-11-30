@@ -15,6 +15,7 @@ jobs:
                 php-version:
                     - "7.4"
                     - "8.0"
+                    - "8.1"
                 deps:
                     - "highest"
                     - "lowest"
@@ -26,7 +27,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
-
                     coverage: "pcov"
                     ini-values: "zend.assertions=1"
             -   name: "Install dependencies with Composer"
