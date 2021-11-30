@@ -41,3 +41,4 @@ jobs:
                     dependency-versions: "${{ matrix.deps }}"
             -   name: "Run PHPUnit"
                 run: "vendor/bin/phpunit"
+                continue-on-error: "${{ matrix.php-version == '8.0' || matrix.php-version == '8.1 || matrix.symfony-require == '5.4.*' }}"
