@@ -2,8 +2,8 @@ name: "Continuous Integration"
 
 on: push
 
-#env:
-#    fail-fast: true
+env:
+    fail-fast: true
 
 jobs:
     phpunit:
