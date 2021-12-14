@@ -20,8 +20,8 @@
         ]
     },
     "require": {
-        "php": ">=7.4",
-        "api-platform/core": "^2.3",
+        "php": "^8.1",
+        "api-platform/core": "^2.6",
         "dontdrinkandroot/common": "dev-master",
         "symfony/config": "^4.4|^5.4",
         "symfony/dependency-injection": "^4.4|^5.4",
