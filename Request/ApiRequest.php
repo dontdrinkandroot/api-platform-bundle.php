@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Helper class that eases the handling with Api Platform request attributes.
- *
- * @author Philip Washington Sorst <philip@sorst.net>
  */
 class ApiRequest
 {
@@ -23,13 +21,20 @@ class ApiRequest
     const ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME = '_api_subresource_operation_name';
     const ATTRIBUTE_ROUTE = '_route';
 
-    private Request $request;
-
-    public function __construct(Request $request)
+    public function __construct(private Request $request)
     {
-        $this->request = $request;
     }
 
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return string|null
+     * @deprecated We cannot predict the field here.
+     *
+     */
     public function getId(): ?string
     {
         return $this->request->attributes->get(self::ATTRIBUTE_ID);
@@ -119,7 +124,10 @@ class ApiRequest
      */
     public function isCreateOrUpdate(string $resourceClass = null, bool $checkDataClass = true): bool
     {
-        return $this->isCollectionPost($resourceClass, $checkDataClass) || $this->isItemPut($resourceClass, $checkDataClass);
+        return $this->isCollectionPost($resourceClass, $checkDataClass) || $this->isItemPut(
+                $resourceClass,
+                $checkDataClass
+            );
     }
 
     public function isCollectionGet(string $resourceClass = null): bool
@@ -165,5 +173,10 @@ class ApiRequest
         }
 
         return self::METHOD_DELETE === $this->getItemOperation();
+    }
+
+    public function getAttribute(string $key): mixed
+    {
+        return $this->request->attributes->get($key);
     }
 }
