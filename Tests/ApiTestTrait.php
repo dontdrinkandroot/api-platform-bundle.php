@@ -242,10 +242,15 @@ trait ApiTestTrait
 
     protected function addJwtAuthorizationHeader(UserInterface $user, array $headers = [])
     {
-        $token = $this->getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
+        $token = $this->createJwtToken($user);
         $headers['Authorization'] = 'Bearer ' . $token;
 
         return $headers;
+    }
+
+    protected function createJwtToken(UserInterface $user): string
+    {
+        return $this->getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
     }
 
     protected function addBasicAuthorizationHeader(string $userName, string $password, array $headers = []): array
