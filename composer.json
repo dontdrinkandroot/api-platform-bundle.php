@@ -23,10 +23,10 @@
         "php": "^8.1",
         "api-platform/core": "^2.6",
         "dontdrinkandroot/common": "dev-master",
-        "symfony/config": "^4.4|^5.4",
-        "symfony/dependency-injection": "^4.4|^5.4",
-        "symfony/security-core": "^4.4|^5.4",
-        "symfony/yaml": "^4.4|^5.4"
+        "symfony/config": "^5.4",
+        "symfony/dependency-injection": "^5.4",
+        "symfony/security-core": "^5.4",
+        "symfony/yaml": "^5.4"
     },
     "require-dev": {
         "doctrine/dbal": "^2.0",
@@ -35,11 +35,11 @@
         "doctrine/orm": "^2.7",
         "liip/test-fixtures-bundle": "^1.0",
         "phpunit/phpunit": "^8.0",
-        "symfony/browser-kit": "^4.4|^5.4",
-        "symfony/framework-bundle": "^4.4|^5.4",
-        "symfony/phpunit-bridge": "^4.4|^5.4",
-        "symfony/security-bundle": "^4.4|^5.4",
-        "symfony/twig-bundle": "^4.4|^5.4"
+        "symfony/browser-kit": "^5.4",
+        "symfony/framework-bundle": "^5.4",
+        "symfony/phpunit-bridge": "^5.4",
+        "symfony/security-bundle": "^5.4",
+        "symfony/twig-bundle": "^5.4"
     },
     "suggest": {
     },

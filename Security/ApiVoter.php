@@ -3,14 +3,13 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
+use Dontdrinkandroot\Common\Asserted;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Voter that simplifies Api Voting Operations.
- *
- * @author Philip Washington Sorst <philip@sorst.net>
  */
 abstract class ApiVoter extends Voter
 {
@@ -19,7 +18,7 @@ abstract class ApiVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if ($attribute !== self::SECURITY_ATTRIBUTE) {
             return false;
@@ -29,18 +28,17 @@ abstract class ApiVoter extends Voter
             return false;
         }
 
-        $apiAttributes = new ApiRequest($subject->getRequest());
+        $apiRequest = new ApiRequest($subject->getRequest());
 
-        return $this->supportsOperation($apiAttributes, $subject);
+        return $this->supportsOperation($apiRequest, $subject);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-        assert($subject instanceof RequestEvent);
-        $apiAttributes = new ApiRequest($subject->getRequest());
+        $apiAttributes = new ApiRequest(Asserted::instanceOf($subject, RequestEvent::class)->getRequest());
 
         return $this->isOperationGranted($apiAttributes, $subject, $token);
     }

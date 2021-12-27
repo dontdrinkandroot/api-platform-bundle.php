@@ -33,7 +33,6 @@ class ApiRequest
     /**
      * @return string|null
      * @deprecated We cannot predict the field here.
-     *
      */
     public function getId(): ?string
     {

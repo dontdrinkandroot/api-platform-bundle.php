@@ -9,16 +9,18 @@ jobs:
         env:
             fail-fast: false
             SYMFONY_REQUIRE: ${{matrix.symfony-require}}
+            SYMFONY_DEPRECATIONS_HELPER: ${{matrix.symfony-deprecations-helper}}
         strategy:
             matrix:
-                php-version:
-                    - "8.1"
-                symfony-require:
-                    - "4.4.*"
-                    - "5.4.*"
-                deps:
-                    - "highest"
-                    - "lowest"
+                include:
+                    -   php-version: "8.1"
+                        symfony-require: "5.4.*"
+                        deps: "lowest"
+                        symfony-deprecations-helper: "disabled=1"
+                    -   php-version: "8.1"
+                        symfony-require: "5.4.*"
+                        deps: "highest"
+                        symfony-deprecations-helper: "max[direct]=0"
 
         steps:
             -   name: "Checkout"
@@ -50,11 +52,25 @@ jobs:
     psalm:
         name: Psalm
         runs-on: ubuntu-latest
+        env:
+            SYMFONY_REQUIRE: "5.4.*"
         steps:
-            -   name: Checkout code
-                uses: actions/checkout@v2
-            -   name: Psalm
-                uses: docker://vimeo/psalm-github-actions
+            -   name: "Checkout code"
+                uses: "actions/checkout@v2"
+            -   name: "Install PHP"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "8.1"
+            -   name: "Globally install symfony/flex"
+                run: "composer global require --no-progress --no-scripts --no-plugins symfony/flex"
+            -   name: "Install dependencies with Composer"
+                uses: "ramsey/composer-install@v1"
+            -   name: "Install psalm"
+                run: |
+                    wget https://github.com/vimeo/psalm/releases/latest/download/psalm.phar -O /usr/local/bin/psalm \
+                    && chmod +x /usr/local/bin/psalm
+            -   name: "Run psalm"
+                run: "psalm"
 
     sonarcloud:
         name: "SonarCloud"

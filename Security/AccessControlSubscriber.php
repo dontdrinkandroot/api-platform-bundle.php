@@ -12,16 +12,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Calls Access Decision listeners for all api resources.
- *
- * @author Philip Washington Sorst <philip@sorst.net>
  */
 class AccessControlSubscriber implements EventSubscriberInterface
 {
-    private AuthorizationCheckerInterface $authorizationChecker;
-
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(private AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**

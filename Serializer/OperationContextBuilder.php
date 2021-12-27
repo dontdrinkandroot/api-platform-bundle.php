@@ -36,11 +36,8 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
     const ATTRIBUTE_SUBRESOURCE_RESOURCES = 'subresource_resources';
     const ATTRIBUTE_SUBRESOURCE_CONTEXT = '_api_subresource_context';
 
-    private SerializerContextBuilderInterface $decoratedBuilder;
-
-    public function __construct(SerializerContextBuilderInterface $decoratedBuilder)
+    public function __construct(private SerializerContextBuilderInterface $decoratedBuilder)
     {
-        $this->decoratedBuilder = $decoratedBuilder;
     }
 
     /**
