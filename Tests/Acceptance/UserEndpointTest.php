@@ -31,12 +31,13 @@ class UserEndpointTest extends AbstractAcceptanceTest
     public function testPost(): void
     {
         $this->loadKernelBrowserAndFixtures([Users::class]);
+        $this->kernelBrowser->catchExceptions(false);
         $response = $this->jsonPost(
             '/users',
-            ['username' => 'username', 'password' => 'password'],
+            [],
             $this->addBasicAuthorizationHeader('admin', 'admin'),
-            []
+            ['username' => 'username', 'password' => 'password']
         );
-        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $content = $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 }
