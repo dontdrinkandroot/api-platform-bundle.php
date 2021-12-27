@@ -14,8 +14,8 @@ class ExampleEntityVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        return is_a($subject, ExampleEntity::class, true) &&
-            in_array($attribute, CrudOperation::all());
+        return is_a($subject, ExampleEntity::class, true)
+            && in_array($attribute, CrudOperation::all());
     }
 
     /**
@@ -23,14 +23,10 @@ class ExampleEntityVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-        switch ($attribute) {
-            case CrudOperation::CREATE:
-            case CrudOperation::UPDATE:
-                return in_array('ROLE_ADMIN', $token->getRoleNames(), true);
-            case CrudOperation::READ:
-                return null !== $token->getUser();
-            default:
-                return false;
-        }
+        return match ($attribute) {
+            CrudOperation::CREATE, CrudOperation::UPDATE => in_array('ROLE_ADMIN', $token->getRoleNames(), true),
+            CrudOperation::READ => null !== $token->getUser(),
+            default => false,
+        };
     }
 }

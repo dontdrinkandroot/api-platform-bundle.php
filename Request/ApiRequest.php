@@ -57,14 +57,29 @@ class ApiRequest
         return $this->request->attributes->get(self::ATTRIBUTE_API_COLLECTION_OPERATION_NAME);
     }
 
+    public function isCollectionOperation(): bool
+    {
+        return null !== $this->getCollectionOperation();
+    }
+
     public function getItemOperation(): ?string
     {
         return $this->request->attributes->get(self::ATTRIBUTE_API_ITEM_OPERATION_NAME);
     }
 
+    public function isItemOperation(): bool
+    {
+        return null !== $this->getItemOperation();
+    }
+
     public function getSubresourceOperation(): ?string
     {
         return $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME);
+    }
+
+    public function isSubresoureOperation(): bool
+    {
+        return null !== $this->getSubresourceOperation();
     }
 
     /**

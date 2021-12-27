@@ -5,17 +5,13 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ApiResource()
- */
+#[ApiResource]
+#[ORM\Entity]
 class ExampleEntity
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     public function getId(): ?int
