@@ -4,17 +4,14 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\Acceptance;
 
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\ApiTestTrait;
+use Dontdrinkandroot\Common\Asserted;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 abstract class AbstractAcceptanceTest extends WebTestCase
 {
-    use FixturesTrait;
-
     use ApiTestTrait;
 
     protected ReferenceRepository $referenceRepository;
@@ -32,7 +29,13 @@ abstract class AbstractAcceptanceTest extends WebTestCase
     protected function loadKernelBrowserAndFixtures(array $classNames = []): ReferenceRepository
     {
         $this->kernelBrowser = self::createClient();
-        $this->referenceRepository = $this->loadFixtures($classNames)->getReferenceRepository();
+        $databaseToolCollection = Asserted::instanceOf(
+            self::getContainer()->get(DatabaseToolCollection::class),
+            DatabaseToolCollection::class
+        );
+        $this->referenceRepository = $databaseToolCollection->get()
+            ->loadFixtures($classNames)
+            ->getReferenceRepository();
 
         return $this->referenceRepository;
     }
