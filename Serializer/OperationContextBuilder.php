@@ -133,7 +133,7 @@ class OperationContextBuilder implements SerializerContextBuilderInterface
 
     /**
      * @param array       $context
-     * @param string|null $method
+     * @param string      $method
      * @param string|null $resourceClass
      * @param string|null $subresourceProperty
      * @param string|null $customOperationName
