@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserIdentifier()
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = ['ROLE_USER'];
         if ($this->admin) {
@@ -84,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
