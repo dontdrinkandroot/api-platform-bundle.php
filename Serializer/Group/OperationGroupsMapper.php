@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Serializer\Group;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\Common\CrudOperation;
 use ReflectionClass;
 use RuntimeException;
@@ -89,7 +90,7 @@ class OperationGroupsMapper implements GroupsMapperInterface
             $resourceClass = $this->getShortName($apiRequest->getResourceClass());
         } elseif ($apiRequest->isSubresoureOperation()) {
             $method = $this->isSubresourceCollection($apiRequest) ? self::METHOD_LIST : self::METHOD_GET;
-            $resourceClass = $this->getShortName($apiRequest->getSubresourceClass());
+            $resourceClass = $this->getShortName(Asserted::notNull($apiRequest->getSubresourceContextClass()));
             $subresourceProperty = $this->getSubresourceProperty($apiRequest);
         }
 

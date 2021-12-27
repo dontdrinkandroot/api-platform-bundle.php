@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Request;
 
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,6 +20,7 @@ class ApiRequest
     const ATTRIBUTE_API_COLLECTION_OPERATION_NAME = '_api_collection_operation_name';
     const ATTRIBUTE_API_ITEM_OPERATION_NAME = '_api_item_operation_name';
     const ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME = '_api_subresource_operation_name';
+    const ATTRIBUTE_API_SUBRESOURCE_CONTEXT = '_api_subresource_context';
     const ATTRIBUTE_ROUTE = '_route';
 
     public function __construct(private Request $request)
@@ -192,5 +194,29 @@ class ApiRequest
     public function getAttribute(string $key): mixed
     {
         return $this->request->attributes->get($key);
+    }
+
+    /**
+     * @template T
+     *
+     * @return class-string<T>|null
+     */
+    public function getSubresourceContextClass(): ?string
+    {
+        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
+            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
+
+            $numIdentifiers = count($subresourceContext['identifiers']);
+            if (0 === $numIdentifiers) {
+                throw new RuntimeException('No identifier found');
+            }
+            if ($numIdentifiers > 1) {
+                throw new RuntimeException('Too many identifiers');
+            }
+
+            return reset($subresourceContext['identifiers'])[0];
+        }
+
+        return null;
     }
 }
