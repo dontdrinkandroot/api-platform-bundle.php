@@ -2,7 +2,11 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\Acceptance;
 
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserAdmin;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\Users;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserUser;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
+use Dontdrinkandroot\Common\Asserted;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserEndpointTest extends AbstractAcceptanceTest
@@ -31,13 +35,35 @@ class UserEndpointTest extends AbstractAcceptanceTest
     public function testPost(): void
     {
         $this->loadKernelBrowserAndFixtures([Users::class]);
-        $this->kernelBrowser->catchExceptions(false);
         $response = $this->jsonPost(
             '/users',
             [],
             $this->addBasicAuthorizationHeader('admin', 'admin'),
-            ['username' => 'username', 'password' => 'password']
+            ['username' => 'username', 'password' => 'password', 'admin' => true]
         );
         $content = $this->assertJsonResponse($response, Response::HTTP_CREATED);
+        $this->assertEquals([
+            'id'       => 3,
+            'username' => 'username',
+            'roles'    => ['ROLE_USER', 'ROLE_ADMIN']
+        ], $content);
+    }
+
+    public function testGet(): void
+    {
+        $this->loadKernelBrowserAndFixtures([Users::class]);
+        $user = Asserted::instanceOf($this->referenceRepository->getReference(UserUser::class), User::class);
+        $response = $this->jsonGet(
+            sprintf('/users/%d', $user->getId()),
+            [],
+            $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
+            ['username' => 'username', 'password' => 'password']
+        );
+        $content = $this->assertJsonResponse($response);
+        $this->assertEquals([
+            'id'       => $user->getId(),
+            'username' => $user->getUserIdentifier(),
+            'roles'    => $user->getRoles()
+        ], $content);
     }
 }

@@ -9,6 +9,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 class UserAdmin extends Fixture
 {
     public const USERNAME = 'admin';
+    public const PASSWORD = self::USERNAME;
 
     /**
      * {@inheritdoc}
@@ -17,7 +18,7 @@ class UserAdmin extends Fixture
     {
         $user = new User();
         $user->setUsername(self::USERNAME);
-        $user->setPassword(self::USERNAME);
+        $user->setPassword(self::PASSWORD);
         $user->setAdmin(true);
         $manager->persist($user);
         $manager->flush();

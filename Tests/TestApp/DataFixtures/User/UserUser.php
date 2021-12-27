@@ -9,6 +9,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 class UserUser extends Fixture
 {
     public const USERNAME = 'user';
+    public const PASSWORD = self::USERNAME;
 
     /**
      * {@inheritdoc}
@@ -17,7 +18,7 @@ class UserUser extends Fixture
     {
         $user = new User();
         $user->setUsername(self::USERNAME);
-        $user->setPassword(self::USERNAME);
+        $user->setPassword(self::PASSWORD);
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::class, $user);
