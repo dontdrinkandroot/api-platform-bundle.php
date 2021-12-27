@@ -9,3 +9,9 @@ services:
 
     Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security\:
         resource: '../Security'
+
+    Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\:
+        resource: '../DataFixtures'
+
+    Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Serializer\:
+        resource: '../Serializer'

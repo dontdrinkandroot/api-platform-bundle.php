@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\ApiTestTrait;
 use Dontdrinkandroot\Common\Asserted;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
