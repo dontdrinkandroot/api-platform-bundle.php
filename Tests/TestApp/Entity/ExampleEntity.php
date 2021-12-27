@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ApiResource()
- *
- * @author Philip Washington Sorst <philip@sorst.net>
  */
 class ExampleEntity
 {

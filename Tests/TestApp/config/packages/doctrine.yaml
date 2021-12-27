@@ -14,6 +14,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/Tests/TestApp/Entity'
+                dir: '%kernel.project_dir%/Entity'
                 prefix: 'Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\'
                 alias: TestApp

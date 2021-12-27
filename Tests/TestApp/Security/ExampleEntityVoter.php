@@ -12,7 +12,7 @@ class ExampleEntityVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return is_a($subject, ExampleEntity::class, true) &&
             in_array($attribute, CrudOperation::all());
@@ -21,14 +21,14 @@ class ExampleEntityVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         switch ($attribute) {
             case CrudOperation::CREATE:
             case CrudOperation::UPDATE:
-                return $token->isAuthenticated() && in_array('ROLE_ADMIN', $token->getRoleNames(), true);
+                return in_array('ROLE_ADMIN', $token->getRoleNames(), true);
             case CrudOperation::READ:
-                return $token->isAuthenticated();
+                return null !== $token->getUser();
             default:
                 return false;
         }
