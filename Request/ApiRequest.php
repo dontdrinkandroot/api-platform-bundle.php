@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Request;
 
+use Dontdrinkandroot\Common\CrudOperation;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -215,6 +216,49 @@ class ApiRequest
             }
 
             return reset($subresourceContext['identifiers'])[0];
+        }
+
+        return null;
+    }
+
+    public function getSubresourceContextProperty(): ?string
+    {
+        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
+            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
+            return $subresourceContext['property'];
+        }
+        return null;
+    }
+
+    public function isSubresourceContextCollection(): bool
+    {
+        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
+            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
+            return $subresourceContext['collection'];
+        }
+        return false;
+    }
+
+    public function getCrudOperation(): ?string
+    {
+        if ($this->isCollectionGet()) {
+            return CrudOperation::LIST;
+        }
+
+        if ($this->isItemGet()) {
+            return CrudOperation::READ;
+        }
+
+        if ($this->isCollectionPost()) {
+            return CrudOperation::CREATE;
+        }
+
+        if ($this->isItemPut()) {
+            return CrudOperation::UPDATE;
+        }
+
+        if ($this->isItemDelete()) {
+            return CrudOperation::DELETE;
         }
 
         return null;
