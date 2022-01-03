@@ -7,6 +7,8 @@ use Dontdrinkandroot\Common\CrudOperation;
 
 abstract class AbstractCrudOperationAttributesMapper implements AttributesMapperInterface
 {
+    private const WRITE_OPERATIONS = [CrudOperation::CREATE, CrudOperation::UPDATE, CrudOperation::DELETE];
+
     /**
      * {@inheritdoc}
      */
@@ -14,11 +16,7 @@ abstract class AbstractCrudOperationAttributesMapper implements AttributesMapper
     {
         $crudOperation = $apiRequest->getCrudOperation();
         if (null !== $crudOperation) {
-            if ($normalization && in_array(
-                    $crudOperation,
-                    [CrudOperation::CREATE, CrudOperation::UPDATE, CrudOperation::DELETE],
-                    true
-                )) {
+            if ($normalization && in_array($crudOperation, self::WRITE_OPERATIONS, true)) {
                 return $this->mapCrudOperation(CrudOperation::READ, $apiRequest);
             }
 
