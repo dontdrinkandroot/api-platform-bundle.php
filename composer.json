@@ -10,7 +10,8 @@
             "homepage": "https://sorst.net"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Dontdrinkandroot\\ApiPlatformBundle\\": ""
@@ -22,7 +23,7 @@
     "require": {
         "php": "^8.1",
         "api-platform/core": "^2.6",
-        "dontdrinkandroot/common": "dev-master",
+        "dontdrinkandroot/common": "^0.2",
         "symfony/config": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/security-core": "^5.4",
@@ -47,5 +48,10 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.2.x-dev"
+        }
     }
 }
