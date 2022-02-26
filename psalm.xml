@@ -7,11 +7,7 @@
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="DependencyInjection" />
-        <directory name="Request" />
-        <directory name="Security" />
-        <directory name="Serializer" />
-        <file name="DdrApiPlatformBundle.php" />
+        <directory name="." />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>

@@ -8,6 +8,6 @@ interface AttributesMapperInterface
 {
     public function supports(ApiRequest $apiRequest, bool $normalization): bool;
 
-    /** @return array<string, string|array> */
+    /** @return array<array-key, mixed> */
     public function map(ApiRequest $apiRequest, bool $normalization): array;
 }

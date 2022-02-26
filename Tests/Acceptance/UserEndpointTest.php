@@ -57,7 +57,6 @@ class UserEndpointTest extends AbstractAcceptanceTest
             sprintf('/users/%d', $user->getId()),
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
-            ['username' => 'username', 'password' => 'password']
         );
         $content = $this->assertJsonResponse($response);
         $this->assertEquals([
