@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DelegatingCrudApiVoter extends ApiVoter
 {
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
@@ -39,25 +39,25 @@ class DelegatingCrudApiVoter extends ApiVoter
         $data = $apiRequest->getData();
 
         if ($apiRequest->isCollectionGet()) {
-            return $this->authorizationChecker->isGranted(CrudOperation::LIST, $resourceClass);
+            return $this->authorizationChecker->isGranted(CrudOperation::LIST->value, $resourceClass);
         }
 
         if ($apiRequest->isCollectionPost()) {
-            return $this->authorizationChecker->isGranted(CrudOperation::CREATE, $data ?? $resourceClass);
+            return $this->authorizationChecker->isGranted(CrudOperation::CREATE->value, $data ?? $resourceClass);
         }
 
         if (null !== $data) {
 
             if ($apiRequest->isItemGet()) {
-                return $this->authorizationChecker->isGranted(CrudOperation::READ, $data);
+                return $this->authorizationChecker->isGranted(CrudOperation::READ->value, $data);
             }
 
             if ($apiRequest->isItemPut()) {
-                return $this->authorizationChecker->isGranted(CrudOperation::UPDATE, $data);
+                return $this->authorizationChecker->isGranted(CrudOperation::UPDATE->value, $data);
             }
 
             if ($apiRequest->isItemDelete()) {
-                return $this->authorizationChecker->isGranted(CrudOperation::DELETE, $data);
+                return $this->authorizationChecker->isGranted(CrudOperation::DELETE->value, $data);
             }
         }
 
