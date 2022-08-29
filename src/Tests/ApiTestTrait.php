@@ -68,7 +68,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $kernelBrowser = $this->getClient();
+        $kernelBrowser = $this->getApiClient();
         $kernelBrowser->request(
             $method,
             $this->getApiPrefix() . $uri,
@@ -126,7 +126,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $kernelBrowser = $this->getClient();
+        $kernelBrowser = $this->getApiClient();
         $kernelBrowser->request(
             $method,
             $this->getApiPrefix() . $uri,
