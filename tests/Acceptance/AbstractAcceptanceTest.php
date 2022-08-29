@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\Acceptance;
 
 use Doctrine\Common\DataFixtures\ReferenceRepository;
-use Dontdrinkandroot\ApiPlatformBundle\Tests\ApiTestTrait;
+use Dontdrinkandroot\ApiPlatformBundle\Test\ApiTestTrait;
 use Dontdrinkandroot\Common\Asserted;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -20,7 +20,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getApiTestKernelBrowser(): KernelBrowser
+    protected function getClient(): KernelBrowser
     {
         return $this->kernelBrowser;
     }

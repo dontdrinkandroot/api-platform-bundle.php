@@ -1,22 +1,23 @@
 <?php
 
-namespace Dontdrinkandroot\ApiPlatformBundle\Tests;
+namespace Dontdrinkandroot\ApiPlatformBundle\Test;
 
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 trait ApiTestTrait
 {
-    protected $acceptedJsonContentTypes = [
+    protected array $acceptedJsonContentTypes = [
         'application/json',
         'application/json; charset=utf-8',
         'application/problem+json; charset=utf-8',
     ];
 
-    protected $acceptedJsonLdContentTypes = [
+    protected array $acceptedJsonLdContentTypes = [
         'application/ld+json',
         'application/ld+json; charset=utf-8',
         'application/problem+json; charset=utf-8',
@@ -37,7 +38,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonRequest( Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonRequest(Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonPost(
@@ -47,7 +48,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonRequest( Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonRequest(Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonDelete(
@@ -56,7 +57,7 @@ trait ApiTestTrait
         array $headers = [],
         ?array $content = null
     ): Response {
-        return $this->jsonRequest( Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
+        return $this->jsonRequest(Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
     protected function jsonRequest(
@@ -67,7 +68,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $kernelBrowser = $this->getApiTestKernelBrowser();
+        $kernelBrowser = $this->getClient();
         $kernelBrowser->request(
             $method,
             $this->getApiPrefix() . $uri,
@@ -85,7 +86,7 @@ trait ApiTestTrait
         array $parameters = [],
         array $headers = []
     ): Response {
-        return $this->jsonLdRequest( Request::METHOD_GET, $uri, $parameters, $headers);
+        return $this->jsonLdRequest(Request::METHOD_GET, $uri, $parameters, $headers);
     }
 
     protected function jsonLdPut(
@@ -95,7 +96,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonLdRequest( Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonLdRequest(Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonLdPost(
@@ -105,7 +106,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        return $this->jsonLdRequest( Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
+        return $this->jsonLdRequest(Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
     protected function jsonLdDelete(
@@ -114,7 +115,7 @@ trait ApiTestTrait
         array $headers = [],
         ?array $content = null
     ): Response {
-        return $this->jsonLdRequest( Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
+        return $this->jsonLdRequest(Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
     protected function jsonLdRequest(
@@ -125,7 +126,7 @@ trait ApiTestTrait
         ?array $content = null,
         array $files = []
     ): Response {
-        $kernelBrowser = $this->getApiTestKernelBrowser();
+        $kernelBrowser = $this->getClient();
         $kernelBrowser->request(
             $method,
             $this->getApiPrefix() . $uri,
@@ -141,7 +142,6 @@ trait ApiTestTrait
     protected function assertJsonResponse(Response $response, $statusCode = 200)
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
-
             Assert::assertTrue(
                 $this->hasJsonContentType($response),
                 sprintf('JSON content type missing, given: %s', $response->headers->get('Content-Type'))
@@ -159,7 +159,6 @@ trait ApiTestTrait
     protected function assertJsonLdResponse(Response $response, $statusCode = 200)
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
-
             Assert::assertTrue(
                 $this->hasJsonLdContentType($response),
                 sprintf('JSON+LD content type missing, given: %s', $response->headers->get('Content-Type'))
@@ -249,7 +248,7 @@ trait ApiTestTrait
 
     protected function createJwtToken(UserInterface $user): string
     {
-        return $this->getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
+        return self::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
     }
 
     protected function addBasicAuthorizationHeader(string $userName, string $password, array $headers = []): array
@@ -269,9 +268,12 @@ trait ApiTestTrait
         return $value;
     }
 
-    protected function getApiPrefix(): string {
+    protected function getApiPrefix(): string
+    {
         return '/api';
     }
 
-    protected abstract function getApiTestKernelBrowser(): KernelBrowser;
+    abstract protected static function getContainer(): ContainerInterface;
+
+    abstract protected function getClient(): KernelBrowser;
 }

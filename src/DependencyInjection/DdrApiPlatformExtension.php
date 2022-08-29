@@ -6,7 +6,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInte
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrApiPlatformExtension extends Extension
@@ -19,14 +19,14 @@ class DdrApiPlatformExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config/services'));
-        $loader->load('services.yaml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config/services'));
+        $loader->load('services.php');
 
         if (true === $config['security']) {
-            $loader->load('security.yaml');
+            $loader->load('security.php');
         }
         if (true === $config['serializer']['enabled']) {
-            $loader->load('serializer.yaml');
+            $loader->load('serializer.php');
 
             $container->setParameter(
                 'ddr_api_platform.serializer.operation_groups_enabled',
