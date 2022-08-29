@@ -17,9 +17,9 @@ class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInter
      * @param iterable<AttributesMapperInterface> $attributesMappers
      */
     public function __construct(
-        private SerializerContextBuilderInterface $decoratedBuilder,
-        private iterable $groupsMappers,
-        private iterable $attributesMappers,
+        private readonly SerializerContextBuilderInterface $decoratedBuilder,
+        private readonly iterable $groupsMappers,
+        private readonly iterable $attributesMappers,
     ) {
     }
 

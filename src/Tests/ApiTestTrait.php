@@ -139,7 +139,7 @@ trait ApiTestTrait
         return $kernelBrowser->getResponse();
     }
 
-    protected function assertJsonResponse(Response $response, $statusCode = 200)
+    protected function assertJsonResponse(Response $response, int $statusCode = 200): array
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
             Assert::assertTrue(
@@ -149,14 +149,14 @@ trait ApiTestTrait
         }
 
         $content = $response->getContent();
-        $decodedContent = json_decode($content, true);
+        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
         return $decodedContent;
     }
 
-    protected function assertJsonLdResponse(Response $response, $statusCode = 200)
+    protected function assertJsonLdResponse(Response $response, $statusCode = 200): array
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
             Assert::assertTrue(
@@ -166,14 +166,14 @@ trait ApiTestTrait
         }
 
         $content = $response->getContent();
-        $decodedContent = json_decode($content, true);
+        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
         return $decodedContent;
     }
 
-    private function hasJsonContentType($response)
+    private function hasJsonContentType($response): bool
     {
         foreach ($this->acceptedJsonContentTypes as $acceptedJsonContentType) {
             if ($response->headers->contains('Content-Type', $acceptedJsonContentType)) {
@@ -184,7 +184,7 @@ trait ApiTestTrait
         return false;
     }
 
-    private function hasJsonLdContentType($response)
+    private function hasJsonLdContentType($response): bool
     {
         foreach ($this->acceptedJsonLdContentTypes as $acceptedJsonLdContentType) {
             if ($response->headers->contains('Content-Type', $acceptedJsonLdContentType)) {
@@ -201,10 +201,10 @@ trait ApiTestTrait
             return null;
         }
 
-        return json_encode($content);
+        return json_encode($content, JSON_THROW_ON_ERROR);
     }
 
-    protected function transformJsonHeaders(array $headers)
+    protected function transformJsonHeaders(array $headers): array
     {
         $transformedHeaders = [
             'HTTP_ACCEPT'  => 'application/json',
@@ -221,7 +221,7 @@ trait ApiTestTrait
         return $transformedHeaders;
     }
 
-    protected function transformJsonLdHeaders(array $headers)
+    protected function transformJsonLdHeaders(array $headers): array
     {
         $transformedHeaders = [
             'HTTP_ACCEPT'  => 'application/ld+json',
@@ -238,7 +238,7 @@ trait ApiTestTrait
         return $transformedHeaders;
     }
 
-    protected function addJwtAuthorizationHeader(UserInterface $user, array $headers = [])
+    protected function addJwtAuthorizationHeader(UserInterface $user, array $headers = []): array
     {
         $token = $this->createJwtToken($user);
         $headers['Authorization'] = 'Bearer ' . $token;
@@ -259,7 +259,7 @@ trait ApiTestTrait
         return $headers;
     }
 
-    protected function assertArrayHasKeyAndUnset($key, &$array, $message = '')
+    protected function assertArrayHasKeyAndUnset($key, array &$array, $message = ''): mixed
     {
         Assert::assertArrayHasKey($key, $array, $message);
         $value = $array[$key];

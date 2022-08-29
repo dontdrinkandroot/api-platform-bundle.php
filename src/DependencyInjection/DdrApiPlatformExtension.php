@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrApiPlatformExtension extends Extension
 {
+    public const TAG_GROUPS_MAPPER = 'ddr_api_platform.groups_mapper';
+    public const TAG_ATTRIBUTES_MAPPER = 'ddr_api_platform.attributes_mapper';
+
     /**
      * {@inheritdoc}
      */
@@ -35,11 +38,11 @@ class DdrApiPlatformExtension extends Extension
 
             $container
                 ->registerForAutoconfiguration(GroupsMapperInterface::class)
-                ->addTag('ddr_api_platform.groups_mapper');
+                ->addTag(self::TAG_GROUPS_MAPPER);
 
             $container
                 ->registerForAutoconfiguration(AttributesMapperInterface::class)
-                ->addTag('ddr_api_platform.attributes_mapper');
+                ->addTag(self::TAG_ATTRIBUTES_MAPPER);
         }
     }
 }

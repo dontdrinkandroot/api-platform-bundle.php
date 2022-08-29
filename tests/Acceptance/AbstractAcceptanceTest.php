@@ -20,7 +20,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getClient(): KernelBrowser
+    protected function getApiClient(): KernelBrowser
     {
         return $this->kernelBrowser;
     }

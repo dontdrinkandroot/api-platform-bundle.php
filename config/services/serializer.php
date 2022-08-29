@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Config;
 
+use Dontdrinkandroot\ApiPlatformBundle\DependencyInjection\DdrApiPlatformExtension;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\OperationGroupsMapper;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\GroupsAndAttributesContextBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -17,13 +18,13 @@ return function (ContainerConfigurator $configurator) {
         ->decorate('api_platform.serializer.context_builder')
         ->args([
             service(GroupsAndAttributesContextBuilder::class . '.inner'),
-            tagged_iterator('ddr_api_platform.groups_mapper'),
-            tagged_iterator('ddr_api_platform.attributes_mapper'),
+            tagged_iterator(DdrApiPlatformExtension::TAG_GROUPS_MAPPER),
+            tagged_iterator(DdrApiPlatformExtension::TAG_ATTRIBUTES_MAPPER),
         ]);
 
     $services->set(OperationGroupsMapper::class, OperationGroupsMapper::class)
         ->args([
             param('ddr_api_platform.serializer.operation_groups_enabled')
         ])
-        ->tag('ddr_api_platform.attributes_mapper');
+        ->tag(DdrApiPlatformExtension::TAG_GROUPS_MAPPER);
 };
