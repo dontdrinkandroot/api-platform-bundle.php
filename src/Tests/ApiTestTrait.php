@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\ApiPlatformBundle\Test;
+namespace Dontdrinkandroot\ApiPlatformBundle\Tests;
 
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -275,5 +275,5 @@ trait ApiTestTrait
 
     abstract protected static function getContainer(): ContainerInterface;
 
-    abstract protected function getClient(): KernelBrowser;
+    abstract protected function getApiClient(): KernelBrowser;
 }

@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\Acceptance;
 
 use Doctrine\Common\DataFixtures\ReferenceRepository;
-use Dontdrinkandroot\ApiPlatformBundle\Test\ApiTestTrait;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\ApiTestTrait;
 use Dontdrinkandroot\Common\Asserted;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
