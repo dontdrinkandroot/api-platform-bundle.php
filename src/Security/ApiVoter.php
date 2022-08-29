@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 abstract class ApiVoter extends Voter
 {
-    const SECURITY_ATTRIBUTE = 'ddr_api_access';
+    public const SECURITY_ATTRIBUTE = 'ddr_api_access';
 
     /**
      * {@inheritdoc}
@@ -36,14 +36,14 @@ abstract class ApiVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $apiAttributes = new ApiRequest(Asserted::instanceOf($subject, RequestEvent::class)->getRequest());
 
         return $this->isOperationGranted($apiAttributes, $subject, $token);
     }
 
-    protected function getQueryParameter(RequestEvent $event, string $name)
+    protected function getQueryParameter(RequestEvent $event, string $name): string|int|float|bool|null
     {
         return $event->getRequest()->query->get($name);
     }

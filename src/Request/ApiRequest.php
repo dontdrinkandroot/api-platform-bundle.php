@@ -50,6 +50,9 @@ class ApiRequest
         return $this->request->attributes->get(self::ATTRIBUTE_DATA);
     }
 
+    /**
+     * @return class-string|null
+     */
     public function getResourceClass(): ?string
     {
         return $this->request->attributes->get(self::ATTRIBUTE_API_RESOURCE_CLASS);
@@ -86,6 +89,7 @@ class ApiRequest
     }
 
     /**
+     * @param class-string $resourceClass
      * Checks if the Request handles the given resource class.
      */
     public function handlesResourceClass(string $resourceClass, bool $checkDataClass = false): bool
@@ -138,6 +142,8 @@ class ApiRequest
 
     /**
      * Checks if the Request is a create or update operation for the given resource class.
+     *
+     * @param class-string|null $resourceClass
      */
     public function isCreateOrUpdate(string $resourceClass = null, bool $checkDataClass = true): bool
     {
@@ -147,6 +153,11 @@ class ApiRequest
             );
     }
 
+    /**
+     * @param class-string|null $resourceClass
+     *
+     * @return bool
+     */
     public function isCollectionGet(string $resourceClass = null): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass)) {
@@ -156,6 +167,12 @@ class ApiRequest
         return self::METHOD_GET === $this->getCollectionOperation();
     }
 
+    /**
+     * @param class-string|null $resourceClass
+     * @param bool              $checkDataClass
+     *
+     * @return bool
+     */
     public function isCollectionPost(string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
@@ -165,6 +182,12 @@ class ApiRequest
         return self::METHOD_POST === $this->getCollectionOperation();
     }
 
+    /**
+     * @param class-string|null $resourceClass
+     * @param bool              $checkDataClass
+     *
+     * @return bool
+     */
     public function isItemGet(string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
@@ -174,6 +197,12 @@ class ApiRequest
         return self::METHOD_GET === $this->getItemOperation();
     }
 
+    /**
+     * @param class-string|null $resourceClass
+     * @param bool              $checkDataClass
+     *
+     * @return bool
+     */
     public function isItemPut(string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
@@ -183,6 +212,12 @@ class ApiRequest
         return self::METHOD_PUT === $this->getItemOperation();
     }
 
+    /**
+     * @param class-string|null $resourceClass
+     * @param bool              $checkDataClass
+     *
+     * @return bool
+     */
     public function isItemDelete(string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
@@ -239,7 +274,7 @@ class ApiRequest
         return false;
     }
 
-    public function getCrudOperation(): ?string
+    public function getCrudOperation(): ?CrudOperation
     {
         if ($this->isCollectionGet()) {
             return CrudOperation::LIST;

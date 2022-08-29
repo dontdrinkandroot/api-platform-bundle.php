@@ -26,7 +26,7 @@ abstract class AbstractCrudOperationAttributesMapper implements AttributesMapper
         return $this->mapOther($apiRequest, $normalization);
     }
 
-    protected function mapCrudOperation(string $crudOperation, ApiRequest $apiRequest): array
+    protected function mapCrudOperation(CrudOperation $crudOperation, ApiRequest $apiRequest): array
     {
         return [];
     }

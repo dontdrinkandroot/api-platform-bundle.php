@@ -14,8 +14,9 @@ class UserVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
+        $crudOperation = CrudOperation::tryFrom($attribute);
         return is_a($subject, User::class, true)
-            && in_array($attribute, CrudOperation::all());
+            && in_array($crudOperation, CrudOperation::all());
     }
 
     /**
@@ -23,7 +24,8 @@ class UserVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-        return match ($attribute) {
+        $crudOperation = CrudOperation::tryFrom($attribute);
+        return match ($crudOperation) {
             CrudOperation::CREATE, CrudOperation::UPDATE => in_array('ROLE_ADMIN', $token->getRoleNames(), true),
             CrudOperation::READ => null !== $token->getUser(),
             default => false,

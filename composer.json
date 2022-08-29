@@ -14,11 +14,13 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Dontdrinkandroot\\ApiPlatformBundle\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Dontdrinkandroot\\ApiPlatformBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dontdrinkandroot\\ApiPlatformBundle\\Tests\\": "tests/"
+        }
     },
     "require": {
         "php": "^8.1",
@@ -38,6 +40,7 @@
         "liip/test-fixtures-bundle": "^2.2",
         "phpunit/phpunit": "^9.5.11",
         "symfony/browser-kit": "^5.4",
+        "symfony/flex": "^2.2",
         "symfony/framework-bundle": "^5.4",
         "symfony/phpunit-bridge": "^5.4",
         "symfony/security-bundle": "^5.4",
@@ -47,11 +50,20 @@
     "suggest": {
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "0.2.x-dev"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }

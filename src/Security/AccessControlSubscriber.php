@@ -31,7 +31,7 @@ class AccessControlSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function performAccessControl(RequestEvent $event)
+    public function performAccessControl(RequestEvent $event): void
     {
         if (
             $event->getRequest()->attributes->has(ApiRequest::ATTRIBUTE_API_RESOURCE_CLASS)
