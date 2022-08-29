@@ -149,7 +149,7 @@ trait ApiTestTrait
         }
 
         $content = $response->getContent();
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $decodedContent = '' === $content ? [] : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
@@ -166,7 +166,7 @@ trait ApiTestTrait
         }
 
         $content = $response->getContent();
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $decodedContent = '' === $content ? [] : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
