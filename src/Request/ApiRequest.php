@@ -11,10 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ApiRequest
 {
-    const METHOD_GET = 'get';
-    const METHOD_POST = 'post';
-    const METHOD_PUT = 'put';
-    const METHOD_DELETE = 'delete';
+    private const METHOD_GET = 'GET';
+    private const METHOD_POST = 'POST';
+    private const METHOD_PUT = 'PUT';
+    private const METHOD_DELETE = 'DELETE';
+
     const ATTRIBUTE_ID = 'id';
     const ATTRIBUTE_DATA = 'data';
     const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
@@ -164,7 +165,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === $this->getCollectionOperation();
+        return self::METHOD_GET === strtoupper($this->getCollectionOperation());
     }
 
     /**
@@ -179,7 +180,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_POST === $this->getCollectionOperation();
+        return self::METHOD_POST === strtoupper($this->getCollectionOperation());
     }
 
     /**
@@ -194,7 +195,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === $this->getItemOperation();
+        return self::METHOD_GET === strtoupper($this->getItemOperation());
     }
 
     /**
@@ -209,7 +210,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_PUT === $this->getItemOperation();
+        return self::METHOD_PUT === strtoupper($this->getItemOperation());
     }
 
     /**
@@ -224,7 +225,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_DELETE === $this->getItemOperation();
+        return self::METHOD_DELETE === strtoupper($this->getItemOperation());
     }
 
     public function getAttribute(string $key): mixed
