@@ -24,7 +24,7 @@
     },
     "require": {
         "php": "^8.1",
-        "api-platform/core": "^2.6",
+        "api-platform/core": "^2.7",
         "dontdrinkandroot/common": "^0.2",
         "symfony/config": "^5.4",
         "symfony/dependency-injection": "^5.4",
@@ -52,14 +52,12 @@
         "sort-packages": true
     },
     "extra": {
+        "symfony": {
+            "require": "5.4.*",
+            "allow-contrib": true
+        },
         "branch-alias": {
             "dev-master": "0.2.x-dev"
-        }
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }
