@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserEndpointTest extends AbstractAcceptanceTest
 {
-    public function testPostUnauthorized()
+    public function testPostUnauthorized(): void
     {
         $this->loadKernelBrowserAndFixtures([Users::class]);
         $response = $this->jsonPost('/users', [], [], []);
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    public function testPostForbidden()
+    public function testPostForbidden(): void
     {
         $this->loadKernelBrowserAndFixtures([Users::class]);
         $response = $this->jsonPost('/users', [], $this->addBasicAuthorizationHeader('user', 'user'), []);

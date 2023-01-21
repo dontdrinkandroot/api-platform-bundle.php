@@ -92,7 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         /* Noop */
     }

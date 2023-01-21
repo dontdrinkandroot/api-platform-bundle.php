@@ -15,19 +15,19 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 
     protected ReferenceRepository $referenceRepository;
 
-    protected KernelBrowser $kernelBrowser;
+    protected KernelBrowser $client;
 
     /**
      * {@inheritdoc}
      */
     protected function getApiClient(): KernelBrowser
     {
-        return $this->kernelBrowser;
+        return $this->client;
     }
 
     protected function loadKernelBrowserAndFixtures(array $classNames = []): ReferenceRepository
     {
-        $this->kernelBrowser = self::createClient();
+        $this->client = self::createClient();
         $databaseToolCollection = Asserted::instanceOf(
             self::getContainer()->get(DatabaseToolCollection::class),
             DatabaseToolCollection::class
