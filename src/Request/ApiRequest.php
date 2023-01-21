@@ -165,7 +165,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === strtoupper($this->getCollectionOperation());
+        return self::METHOD_GET === strtoupper($this->getCollectionOperation() ?? '');
     }
 
     /**
@@ -180,7 +180,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_POST === strtoupper($this->getCollectionOperation());
+        return self::METHOD_POST === strtoupper($this->getCollectionOperation() ?? '');
     }
 
     /**
@@ -195,7 +195,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === strtoupper($this->getItemOperation());
+        return self::METHOD_GET === strtoupper($this->getItemOperation() ?? '');
     }
 
     /**
@@ -210,7 +210,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_PUT === strtoupper($this->getItemOperation());
+        return self::METHOD_PUT === strtoupper($this->getItemOperation() ?? '');
     }
 
     /**
@@ -225,7 +225,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_DELETE === strtoupper($this->getItemOperation());
+        return self::METHOD_DELETE === strtoupper($this->getItemOperation() ?? '');
     }
 
     public function getAttribute(string $key): mixed
