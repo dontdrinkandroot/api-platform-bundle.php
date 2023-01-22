@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Serializer;
 
-use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
