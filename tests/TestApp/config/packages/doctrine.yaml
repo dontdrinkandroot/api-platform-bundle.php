@@ -4,7 +4,7 @@ doctrine:
 
     dbal:
         driver: pdo_sqlite
-        path: /tmp/ddr_api_platform_bundle.db
+        path: /tmp/ddr_api_platform_bundle/data.db
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
