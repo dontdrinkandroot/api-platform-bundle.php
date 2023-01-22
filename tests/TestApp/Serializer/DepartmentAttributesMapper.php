@@ -4,16 +4,17 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Serializer;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 
-class UserAttributesMapper implements AttributesMapperInterface
+class DepartmentAttributesMapper implements AttributesMapperInterface
 {
     /**
      * {@inheritdoc}
      */
     public function supports(ApiRequest $apiRequest, bool $normalization): bool
     {
-        return $apiRequest->handlesResourceClass(User::class);
+        return $apiRequest->handlesResourceClass(Department::class);
     }
 
     /**
@@ -22,9 +23,9 @@ class UserAttributesMapper implements AttributesMapperInterface
     public function map(ApiRequest $apiRequest, bool $normalization): array
     {
         if (!$normalization && $apiRequest->isCollectionPost(User::class)) {
-            return ['department', 'username', 'password', 'admin'];
+            return ['name'];
         }
 
-        return ['id', 'username', 'roles'];
+        return ['id', 'name'];
     }
 }

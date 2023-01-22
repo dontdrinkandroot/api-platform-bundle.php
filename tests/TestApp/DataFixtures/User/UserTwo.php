@@ -3,13 +3,24 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\Department\DepartmentAccounting;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 
-class UserUser extends Fixture
+class UserTwo extends Fixture implements DependentFixtureInterface
 {
-    public const USERNAME = 'user';
+    public const USERNAME = 'usertwo';
     public const PASSWORD = self::USERNAME;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies(): array
+    {
+        return [DepartmentAccounting::class];
+    }
 
     /**
      * {@inheritdoc}
@@ -17,6 +28,7 @@ class UserUser extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User();
+        $user->department = $this->getReference(DepartmentAccounting::class, Department::class);
         $user->setUsername(self::USERNAME);
         $user->setPassword(self::PASSWORD);
         $manager->persist($user);

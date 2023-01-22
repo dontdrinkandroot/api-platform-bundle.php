@@ -13,7 +13,7 @@ class Users extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies(): array
     {
-        return [UserAdmin::class, UserUser::class];
+        return [UserAdmin::class, UserOne::class];
     }
 
     /**

@@ -5,21 +5,21 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\Department\DepartmentManagement;
+use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\Department\DepartmentAccounting;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 
-class UserAdmin extends Fixture implements DependentFixtureInterface
+class UserOne extends Fixture implements DependentFixtureInterface
 {
-    public const USERNAME = 'admin';
+    public const USERNAME = 'userone';
     public const PASSWORD = self::USERNAME;
 
     /**
      * {@inheritdoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [DepartmentManagement::class];
+        return [DepartmentAccounting::class];
     }
 
     /**
@@ -28,10 +28,9 @@ class UserAdmin extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $user = new User();
-        $user->department = $this->getReference(DepartmentManagement::class, Department::class);
+        $user->department = $this->getReference(DepartmentAccounting::class, Department::class);
         $user->setUsername(self::USERNAME);
         $user->setPassword(self::PASSWORD);
-        $user->setAdmin(true);
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::class, $user);

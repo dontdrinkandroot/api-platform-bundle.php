@@ -38,4 +38,16 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 
         return $this->referenceRepository;
     }
+
+    /**
+     * @template T
+     * @param string $referenceName
+     * @param class-string<T> $className
+     *
+     * @return T
+     */
+    protected function getReference(string $referenceName, string $className): object
+    {
+        return $this->referenceRepository->getReference($referenceName, $className);
+    }
 }

@@ -3,6 +3,8 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -28,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $admin = false;
+
+    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    public Department $department;
+
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'users')]
+    public Collection $groups;
+
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

@@ -2,6 +2,12 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\Request;
 
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Dontdrinkandroot\Common\CrudOperation;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +24,7 @@ class ApiRequest
 
     const ATTRIBUTE_ID = 'id';
     const ATTRIBUTE_DATA = 'data';
+    public const ATTRIBUTE_API_OPERATION = '_api_operation';
     const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
     const ATTRIBUTE_API_COLLECTION_OPERATION_NAME = '_api_collection_operation_name';
     const ATTRIBUTE_API_ITEM_OPERATION_NAME = '_api_item_operation_name';
@@ -25,7 +32,7 @@ class ApiRequest
     const ATTRIBUTE_API_SUBRESOURCE_CONTEXT = '_api_subresource_context';
     const ATTRIBUTE_ROUTE = '_route';
 
-    public function __construct(private Request $request)
+    public function __construct(private readonly Request $request)
     {
     }
 
@@ -43,10 +50,7 @@ class ApiRequest
         return $this->request->attributes->get(self::ATTRIBUTE_ID);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->request->attributes->get(self::ATTRIBUTE_DATA);
     }
@@ -148,10 +152,8 @@ class ApiRequest
      */
     public function isCreateOrUpdate(string $resourceClass = null, bool $checkDataClass = true): bool
     {
-        return $this->isCollectionPost($resourceClass, $checkDataClass) || $this->isItemPut(
-                $resourceClass,
-                $checkDataClass
-            );
+        return $this->isCollectionPost($resourceClass, $checkDataClass)
+            || $this->isItemPut($resourceClass, $checkDataClass);
     }
 
     /**
@@ -165,12 +167,12 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === strtoupper($this->getCollectionOperation() ?? '');
+        return $this->getOperation() instanceof GetCollection;
     }
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool              $checkDataClass
+     * @param bool $checkDataClass
      *
      * @return bool
      */
@@ -180,12 +182,12 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_POST === strtoupper($this->getCollectionOperation() ?? '');
+        return $this->getOperation() instanceof Post;
     }
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool              $checkDataClass
+     * @param bool $checkDataClass
      *
      * @return bool
      */
@@ -195,12 +197,12 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_GET === strtoupper($this->getItemOperation() ?? '');
+        return $this->getOperation() instanceof Get;
     }
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool              $checkDataClass
+     * @param bool $checkDataClass
      *
      * @return bool
      */
@@ -210,12 +212,12 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_PUT === strtoupper($this->getItemOperation() ?? '');
+        return $this->getOperation() instanceof Put;
     }
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool              $checkDataClass
+     * @param bool $checkDataClass
      *
      * @return bool
      */
@@ -225,7 +227,7 @@ class ApiRequest
             return false;
         }
 
-        return self::METHOD_DELETE === strtoupper($this->getItemOperation() ?? '');
+        return $this->getOperation() instanceof Delete;
     }
 
     public function getAttribute(string $key): mixed
@@ -298,5 +300,10 @@ class ApiRequest
         }
 
         return null;
+    }
+
+    public function getOperation(): ?Operation
+    {
+        return $this->request->attributes->get(self::ATTRIBUTE_API_OPERATION);
     }
 }
