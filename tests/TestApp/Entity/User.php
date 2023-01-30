@@ -3,6 +3,8 @@
 namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ApiResource]
+#[ApiResource(
+    uriTemplate: '/departments/{departmentId}/users',
+    operations: [new GetCollection()],
+    uriVariables: [
+        'departmentId' => new Link(fromClass: Department::class, toProperty: 'department'),
+    ]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
