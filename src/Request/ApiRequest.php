@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Dontdrinkandroot\Common\CrudOperation;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -17,42 +16,22 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ApiRequest
 {
-    private const METHOD_GET = 'GET';
-    private const METHOD_POST = 'POST';
-    private const METHOD_PUT = 'PUT';
-    private const METHOD_DELETE = 'DELETE';
+    final const ATTRIBUTE_ID = 'id';
+    final const ATTRIBUTE_DATA = 'data';
+    final const ATTRIBUTE_PREVIOUS_DATA = 'previous_data';
+    final const ATTRIBUTE_API_OPERATION = '_api_operation';
+    final const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
+    final const ATTRIBUTE_ROUTE = '_route';
+    final const ATTRIBUTE_API_HAS_COMPOSITE_IDENTIFIER = '_api_has_composite_identifier';
+    final const ATTRIBUTE_API_OPERATION_NAME = '_api_operation_name';
 
-    const ATTRIBUTE_ID = 'id';
-    const ATTRIBUTE_DATA = 'data';
-    public const ATTRIBUTE_API_OPERATION = '_api_operation';
-    const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
-    const ATTRIBUTE_API_COLLECTION_OPERATION_NAME = '_api_collection_operation_name';
-    const ATTRIBUTE_API_ITEM_OPERATION_NAME = '_api_item_operation_name';
-    const ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME = '_api_subresource_operation_name';
-    const ATTRIBUTE_API_SUBRESOURCE_CONTEXT = '_api_subresource_context';
-    const ATTRIBUTE_ROUTE = '_route';
-
-    public function __construct(private readonly Request $request)
+    public function __construct(public readonly Request $request)
     {
     }
 
-    public function getRequest(): Request
+    public function hasCompositeIdentifier(): bool
     {
-        return $this->request;
-    }
-
-    /**
-     * @return string|null
-     * @deprecated We cannot predict the field here.
-     */
-    public function getId(): ?string
-    {
-        return $this->request->attributes->get(self::ATTRIBUTE_ID);
-    }
-
-    public function getData(): mixed
-    {
-        return $this->request->attributes->get(self::ATTRIBUTE_DATA);
+        return $this->getAttribute(self::ATTRIBUTE_API_HAS_COMPOSITE_IDENTIFIER) ?? false;
     }
 
     /**
@@ -60,37 +39,27 @@ class ApiRequest
      */
     public function getResourceClass(): ?string
     {
-        return $this->request->attributes->get(self::ATTRIBUTE_API_RESOURCE_CLASS);
+        return $this->getAttribute(self::ATTRIBUTE_API_RESOURCE_CLASS);
     }
 
-    public function getCollectionOperation(): ?string
+    public function getOperationName(): ?string
     {
-        return $this->request->attributes->get(self::ATTRIBUTE_API_COLLECTION_OPERATION_NAME);
+        return $this->getAttribute(self::ATTRIBUTE_API_OPERATION_NAME);
     }
 
-    public function isCollectionOperation(): bool
+    public function getOperation(): ?Operation
     {
-        return null !== $this->getCollectionOperation();
+        return $this->getAttribute(self::ATTRIBUTE_API_OPERATION);
     }
 
-    public function getItemOperation(): ?string
+    public function getData(): mixed
     {
-        return $this->request->attributes->get(self::ATTRIBUTE_API_ITEM_OPERATION_NAME);
+        return $this->getAttribute(self::ATTRIBUTE_DATA);
     }
 
-    public function isItemOperation(): bool
+    public function getPreviousData(): mixed
     {
-        return null !== $this->getItemOperation();
-    }
-
-    public function getSubresourceOperation(): ?string
-    {
-        return $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_OPERATION_NAME);
-    }
-
-    public function isSubresoureOperation(): bool
-    {
-        return null !== $this->getSubresourceOperation();
+        return $this->getAttribute(self::ATTRIBUTE_PREVIOUS_DATA);
     }
 
     /**
@@ -126,7 +95,7 @@ class ApiRequest
 
     public function getRoute(): string
     {
-        return $this->request->attributes->get(self::ATTRIBUTE_ROUTE);
+        return $this->getAttribute(self::ATTRIBUTE_ROUTE);
     }
 
     public function handlesRoute(string $route): bool
@@ -235,48 +204,6 @@ class ApiRequest
         return $this->request->attributes->get($key);
     }
 
-    /**
-     * @template T
-     *
-     * @return class-string<T>|null
-     */
-    public function getSubresourceContextClass(): ?string
-    {
-        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
-            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
-
-            $numIdentifiers = count($subresourceContext['identifiers']);
-            if (0 === $numIdentifiers) {
-                throw new RuntimeException('No identifier found');
-            }
-            if ($numIdentifiers > 1) {
-                throw new RuntimeException('Too many identifiers');
-            }
-
-            return reset($subresourceContext['identifiers'])[0];
-        }
-
-        return null;
-    }
-
-    public function getSubresourceContextProperty(): ?string
-    {
-        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
-            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
-            return $subresourceContext['property'];
-        }
-        return null;
-    }
-
-    public function isSubresourceContextCollection(): bool
-    {
-        if ($this->request->attributes->has(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT)) {
-            $subresourceContext = $this->request->attributes->get(self::ATTRIBUTE_API_SUBRESOURCE_CONTEXT);
-            return $subresourceContext['collection'];
-        }
-        return false;
-    }
-
     public function getCrudOperation(): ?CrudOperation
     {
         if ($this->isCollectionGet()) {
@@ -300,10 +227,5 @@ class ApiRequest
         }
 
         return null;
-    }
-
-    public function getOperation(): ?Operation
-    {
-        return $this->request->attributes->get(self::ATTRIBUTE_API_OPERATION);
     }
 }
