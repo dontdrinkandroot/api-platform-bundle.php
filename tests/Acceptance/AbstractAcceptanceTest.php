@@ -41,9 +41,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 
     /**
      * @template T
-     * @param string $referenceName
      * @param class-string<T> $className
-     *
      * @return T
      */
     protected function getReference(string $referenceName, string $className): object

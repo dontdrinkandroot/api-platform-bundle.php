@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInterface
 {
     /**
-     * @param SerializerContextBuilderInterface   $decoratedBuilder
      * @param iterable<GroupsMapperInterface>     $groupsMappers
      * @param iterable<AttributesMapperInterface> $attributesMappers
      */

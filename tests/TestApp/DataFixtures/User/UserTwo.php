@@ -11,8 +11,8 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 
 class UserTwo extends Fixture implements DependentFixtureInterface
 {
-    public const USERNAME = 'usertwo';
-    public const PASSWORD = self::USERNAME;
+    final public const USERNAME = 'usertwo';
+    final public const PASSWORD = self::USERNAME;
 
     /**
      * {@inheritdoc}

@@ -144,12 +144,14 @@ trait ApiTestTrait
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
             Assert::assertTrue(
                 $this->hasJsonContentType($response),
-                sprintf('JSON content type missing, given: %s', $response->headers->get('Content-Type'))
+                sprintf('JSON content type missing, given: %s', $response->headers->get('Content-Type') ?? 'none')
             );
         }
 
         $content = $response->getContent();
-        $decodedContent = '' === $content ? [] : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $decodedContent = (false === $content || '' === $content)
+            ? []
+            : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
@@ -166,7 +168,9 @@ trait ApiTestTrait
         }
 
         $content = $response->getContent();
-        $decodedContent = '' === $content ? [] : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $decodedContent = (false === $content || '' === $content)
+            ? []
+            : json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals($statusCode, $response->getStatusCode(), $content);
 
@@ -207,11 +211,11 @@ trait ApiTestTrait
     protected function transformJsonHeaders(array $headers): array
     {
         $transformedHeaders = [
-            'HTTP_ACCEPT'  => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
             'CONTENT_TYPE' => 'application/json',
         ];
         foreach ($headers as $key => $value) {
-            if (strpos($key, 'PHP_') !== 0) {
+            if (!str_starts_with($key, 'PHP_')) {
                 $transformedHeaders['HTTP_' . $key] = $value;
             } else {
                 $transformedHeaders[$key] = $value;
@@ -224,11 +228,11 @@ trait ApiTestTrait
     protected function transformJsonLdHeaders(array $headers): array
     {
         $transformedHeaders = [
-            'HTTP_ACCEPT'  => 'application/ld+json',
+            'HTTP_ACCEPT' => 'application/ld+json',
             'CONTENT_TYPE' => 'application/ld+json',
         ];
         foreach ($headers as $key => $value) {
-            if (strpos($key, 'PHP_') !== 0) {
+            if (!str_starts_with($key, 'PHP_')) {
                 $transformedHeaders['HTTP_' . $key] = $value;
             } else {
                 $transformedHeaders[$key] = $value;
@@ -259,7 +263,7 @@ trait ApiTestTrait
         return $headers;
     }
 
-    protected function assertArrayHasKeyAndUnset($key, array &$array, $message = ''): mixed
+    protected function assertArrayHasKeyAndUnset(string|int $key, array &$array, $message = ''): mixed
     {
         Assert::assertArrayHasKey($key, $array, $message);
         $value = $array[$key];

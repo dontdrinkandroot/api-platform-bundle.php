@@ -11,13 +11,13 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 
 class UserAdmin extends Fixture implements DependentFixtureInterface
 {
-    public const USERNAME = 'admin';
-    public const PASSWORD = self::USERNAME;
+    final public const USERNAME = 'admin';
+    final public const PASSWORD = self::USERNAME;
 
     /**
      * {@inheritdoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [DepartmentManagement::class];
     }

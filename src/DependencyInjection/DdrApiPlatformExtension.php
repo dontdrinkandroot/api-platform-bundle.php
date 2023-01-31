@@ -11,8 +11,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrApiPlatformExtension extends Extension
 {
-    public const TAG_GROUPS_MAPPER = 'ddr_api_platform.groups_mapper';
-    public const TAG_ATTRIBUTES_MAPPER = 'ddr_api_platform.attributes_mapper';
+    final public const TAG_GROUPS_MAPPER = 'ddr_api_platform.groups_mapper';
+    final public const TAG_ATTRIBUTES_MAPPER = 'ddr_api_platform.attributes_mapper';
 
     /**
      * {@inheritdoc}

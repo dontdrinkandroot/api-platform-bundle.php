@@ -127,8 +127,6 @@ class ApiRequest
 
     /**
      * @param class-string|null $resourceClass
-     *
-     * @return bool
      */
     public function isCollectionGet(string $resourceClass = null): bool
     {
@@ -141,9 +139,7 @@ class ApiRequest
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool $checkDataClass
      *
-     * @return bool
      */
     public function isCollectionPost(string $resourceClass = null, bool $checkDataClass = true): bool
     {
@@ -156,9 +152,7 @@ class ApiRequest
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool $checkDataClass
      *
-     * @return bool
      */
     public function isItemGet(string $resourceClass = null, bool $checkDataClass = true): bool
     {
@@ -171,9 +165,7 @@ class ApiRequest
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool $checkDataClass
      *
-     * @return bool
      */
     public function isItemPut(string $resourceClass = null, bool $checkDataClass = true): bool
     {
@@ -186,9 +178,7 @@ class ApiRequest
 
     /**
      * @param class-string|null $resourceClass
-     * @param bool $checkDataClass
      *
-     * @return bool
      */
     public function isItemDelete(string $resourceClass = null, bool $checkDataClass = true): bool
     {
