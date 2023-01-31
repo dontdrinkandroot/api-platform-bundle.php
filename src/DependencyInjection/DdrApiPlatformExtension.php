@@ -28,13 +28,8 @@ class DdrApiPlatformExtension extends Extension
         if (true === $config['security']) {
             $loader->load('security.php');
         }
-        if (true === $config['serializer']['enabled']) {
+        if (true === $config['serializer']) {
             $loader->load('serializer.php');
-
-            $container->setParameter(
-                'ddr_api_platform.serializer.operation_groups_enabled',
-                $config['serializer']['operation_groups_enabled']
-            );
 
             $container
                 ->registerForAutoconfiguration(GroupsMapperInterface::class)

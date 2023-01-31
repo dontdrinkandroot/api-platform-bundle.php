@@ -18,13 +18,7 @@ class Configuration implements ConfigurationInterface
         // @formatter:off
         $rootNode->children()
             ->booleanNode('security')->defaultTrue()->end()
-            ->arrayNode('serializer')
-                ->addDefaultsIfNotSet()
-                ->children()
-                    ->booleanNode('enabled')->defaultTrue()->end()
-                    ->booleanNode('operation_groups_enabled')->defaultFalse()->end()
-                ->end()
-            ->end()
+            ->booleanNode('serializer')->defaultTrue()->end()
         ->end();
         // @formatter:on
 
