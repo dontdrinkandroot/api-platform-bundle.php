@@ -263,7 +263,7 @@ trait ApiTestTrait
         return $headers;
     }
 
-    protected function assertArrayHasKeyAndUnset(string|int $key, array &$array, $message = ''): mixed
+    protected static function assertArrayHasKeyAndUnset(string|int $key, array &$array, $message = ''): mixed
     {
         Assert::assertArrayHasKey($key, $array, $message);
         $value = $array[$key];
