@@ -14,10 +14,10 @@
     </projectFiles>
 
     <issueHandlers>
-        <PossiblyUndefinedMethod>
+        <UndefinedMethod>
             <errorLevel type="suppress">
                 <file name="src/DependencyInjection/Configuration.php" />
             </errorLevel>
-        </PossiblyUndefinedMethod>
+        </UndefinedMethod>
     </issueHandlers>
 </psalm>
