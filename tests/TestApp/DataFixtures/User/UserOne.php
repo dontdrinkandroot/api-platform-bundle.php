@@ -27,10 +27,11 @@ class UserOne extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->department = $this->getReference(DepartmentAccounting::class, Department::class);
-        $user->setUsername(self::USERNAME);
-        $user->setPassword(self::PASSWORD);
+        $user = new User(
+            self::USERNAME,
+            self::PASSWORD,
+            $this->getReference(DepartmentAccounting::class, Department::class),
+        );
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::class, $user);

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\DepartmentRepository;
+use RuntimeException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource]
@@ -17,9 +18,9 @@ class Department
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    public int $id;
+    private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'department')]
+    #[ORM\OneToMany(mappedBy: 'department', targetEntity: User::class)]
     public Collection $users;
 
     public function __construct(
@@ -30,8 +31,8 @@ class Department
         $this->users = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
-        return $this->id;
+        return $this->id ?? throw new RuntimeException('Entity is not persisted');
     }
 }

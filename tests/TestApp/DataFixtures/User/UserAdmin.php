@@ -27,11 +27,12 @@ class UserAdmin extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->department = $this->getReference(DepartmentManagement::class, Department::class);
-        $user->setUsername(self::USERNAME);
-        $user->setPassword(self::PASSWORD);
-        $user->setAdmin(true);
+        $user = new User(
+            self::USERNAME,
+            self::PASSWORD,
+            $this->getReference(DepartmentManagement::class, Department::class),
+            true
+        );
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::class, $user);

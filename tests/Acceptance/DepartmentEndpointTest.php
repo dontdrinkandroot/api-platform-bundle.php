@@ -8,27 +8,30 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserOne;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\Users;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserTwo;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
-use Dontdrinkandroot\Common\Asserted;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepartmentEndpointTest extends AbstractAcceptanceTest
 {
     public function testPostWithMissingFields(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonPost(
+            $client,
             '/departments',
             [],
-            [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
+            []
         );
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPost(): void
     {
-        $this->loadKernelBrowserAndFixtures([UserAdmin::class]);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([UserAdmin::class]);
         $response = $this->jsonPost(
+            $client,
             '/departments',
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
@@ -45,12 +48,14 @@ class DepartmentEndpointTest extends AbstractAcceptanceTest
 
     public function testListUsers(): void
     {
-        $this->loadKernelBrowserAndFixtures(
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures(
             [UserAdmin::class, UserOne::class, UserTwo::class, DepartmentAccounting::class]
         );
-        $department = $this->getReference(DepartmentAccounting::class, Department::class);
+        $department = $referenceRepository->getReference(DepartmentAccounting::class, Department::class);
         $response = $this->jsonGet(
-            sprintf("/departments/%d/users", Asserted::notNull($department->getId())),
+            $client,
+            sprintf("/departments/%d/users", $department->getId()),
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
         );

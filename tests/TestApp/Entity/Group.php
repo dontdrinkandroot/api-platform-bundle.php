@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\GroupRepository;
+use RuntimeException;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
@@ -25,8 +26,8 @@ class Group
         $this->users = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
-        return $this->id;
+        return $this->id ?? throw new RuntimeException('Entity is not persisted');
     }
 }

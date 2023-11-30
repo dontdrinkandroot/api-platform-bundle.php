@@ -1,6 +1,3 @@
 #ddr_api_platform:
 #    serializer:
 #        operation_groups_enabled: true
-
-api_platform:
-    metadata_backward_compatibility_layer: false

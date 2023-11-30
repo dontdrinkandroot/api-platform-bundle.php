@@ -8,22 +8,24 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserOne;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\Users;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
-use Dontdrinkandroot\Common\Asserted;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserEndpointTest extends AbstractAcceptanceTest
 {
     public function testPostUnauthorized(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
-        $response = $this->jsonPost('/users', [], [], []);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
+        $response = $this->jsonPost($client, '/users', [], [], []);
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testPostForbidden(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonPost(
+            $client,
             '/users',
             [],
             $this->addBasicAuthorizationHeader(UserOne::USERNAME, UserOne::PASSWORD),
@@ -34,21 +36,24 @@ class UserEndpointTest extends AbstractAcceptanceTest
 
     public function testPostWithMissingFields(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
-        $response = $this->jsonPost('/users', [], $this->addBasicAuthorizationHeader('admin', 'admin'), []);
-        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
+        $response = $this->jsonPost($client, '/users', [], $this->addBasicAuthorizationHeader('admin', 'admin'), []);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPost(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
-        $department = $this->getReference(DepartmentManagement::class, Department::class);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
+        $department = $referenceRepository->getReference(DepartmentManagement::class, Department::class);
         $response = $this->jsonPost(
+            $client,
             '/users',
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
             [
-                'department' => sprintf("%s/departments/%s", $this->getApiPrefix(), $department->id),
+                'department' => sprintf("%s/departments/%s", $this->getApiPrefix(), $department->getId()),
                 'username' => 'username',
                 'password' => 'password',
                 'admin' => true
@@ -64,9 +69,11 @@ class UserEndpointTest extends AbstractAcceptanceTest
 
     public function testGet(): void
     {
-        $this->loadKernelBrowserAndFixtures([Users::class]);
-        $user = Asserted::instanceOf($this->referenceRepository->getReference(UserOne::class), User::class);
+        $client = self::createClient();
+        $referenceRepository = self::loadFixtures([Users::class]);
+        $user = $referenceRepository->getReference(UserOne::class, User::class);
         $response = $this->jsonGet(
+            $client,
             sprintf('/users/%d', $user->getId()),
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),

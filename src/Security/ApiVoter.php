@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Voter that simplifies Api Voting Operations.
+ * @extends Voter<'ddr_api_access',RequestEvent>
  */
 abstract class ApiVoter extends Voter
 {
@@ -18,7 +19,7 @@ abstract class ApiVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function supports($attribute, $subject): bool
+    protected function supports(string $attribute, mixed $subject): bool
     {
         if ($attribute !== self::SECURITY_ATTRIBUTE) {
             return false;

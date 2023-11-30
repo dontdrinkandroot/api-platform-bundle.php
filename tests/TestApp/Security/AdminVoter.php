@@ -5,12 +5,15 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @extends Voter<string,mixed>
+ */
 class AdminVoter extends Voter
 {
     /**
      * {@inheritdoc}
      */
-    protected function supports(string $attribute, $subject): bool
+    protected function supports(string $attribute, mixed $subject): bool
     {
         return true;
     }

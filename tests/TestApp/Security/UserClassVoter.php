@@ -7,6 +7,9 @@ use Dontdrinkandroot\Common\CrudOperation;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @extends Voter<'READ',User>
+ */
 class UserClassVoter extends Voter
 {
     /**
@@ -15,7 +18,7 @@ class UserClassVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         $crudOperation = CrudOperation::tryFrom($attribute);
-        return is_a($subject, User::class, true)
+        return is_a($subject, User::class)
             && CrudOperation::READ === $crudOperation;
     }
 
