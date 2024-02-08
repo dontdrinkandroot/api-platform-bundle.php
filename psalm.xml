@@ -21,6 +21,16 @@
                 <referencedMethod name="Symfony\Component\Config\Definition\Builder\NodeDefinition::children"/>
             </errorLevel>
         </UndefinedMethod>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <file name="src/Security/AccessCheckerProvider.php"/>
+            </errorLevel>
+        </InternalMethod>
+        <InvalidReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Security/AccessCheckerProvider.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
     </issueHandlers>
 
     <plugins>

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\UserRepository;
+use Override;
 use RuntimeException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -57,17 +58,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id ?? throw new RuntimeException('Entity is not persisted');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getUserIdentifier(): string
     {
         return $this->username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUsername(): string
     {
         return $this->username;
