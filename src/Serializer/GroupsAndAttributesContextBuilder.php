@@ -6,6 +6,7 @@ use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
@@ -22,9 +23,7 @@ class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInter
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
     {
         $context = $this->decoratedBuilder->createFromRequest($request, $normalization, $extractedAttributes);
