@@ -4,3 +4,4 @@ api_platform:
             - '%kernel.project_dir%/Entity'
     event_listeners_backward_compatibility_layer: false
     keep_legacy_inflector: false
+    use_symfony_listeners: false
