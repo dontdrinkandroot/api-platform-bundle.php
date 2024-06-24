@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Config;
 
 use Dontdrinkandroot\ApiPlatformBundle\Model\DependencyInjection\ServiceId;
 use Dontdrinkandroot\ApiPlatformBundle\Security\AccessCheckerProvider;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -28,11 +29,13 @@ return function (ContainerConfigurator $configurator): void {
         ]);
 
     $services->set(ServiceId::ACCESS_CHECKER_PROVIDER_POST_VALIDATE, AccessCheckerProvider::class)
-        ->decorate('api_platform.state_provider.access_checker.post_validate')
+        ->decorate(
+            id: 'api_platform.state_provider.access_checker.post_validate',
+            invalidBehavior: ContainerInterface::IGNORE_ON_INVALID_REFERENCE
+        )
         ->args([
             service('api_platform.state_provider.access_checker.post_validate.inner'),
             service(AuthorizationCheckerInterface::class),
             'post_validate'
         ]);
-
 };
