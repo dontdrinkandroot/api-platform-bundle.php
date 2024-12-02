@@ -33,6 +33,16 @@
                 <file name="src/Security/AccessCheckerProvider.php"/>
             </errorLevel>
         </InvalidReturnStatement>
+        <MoreSpecificReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Serializer/GroupsAndAttributesContextBuilder.php"/>
+            </errorLevel>
+        </MoreSpecificReturnType>
+        <LessSpecificReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Serializer/GroupsAndAttributesContextBuilder.php"/>
+            </errorLevel>
+        </LessSpecificReturnStatement>
     </issueHandlers>
 
     <plugins>

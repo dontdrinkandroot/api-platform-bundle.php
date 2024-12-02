@@ -11,6 +11,9 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 {
     use ApiTestTrait;
 
+    /**
+     * @psalm-suppress InternalMethod
+     */
     protected static function loadFixtures(array $classNames = []): ReferenceRepository
     {
         return self::getService(DatabaseToolCollection::class)->get()
