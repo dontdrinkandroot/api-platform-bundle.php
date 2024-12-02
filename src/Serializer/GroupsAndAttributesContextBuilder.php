@@ -6,6 +6,7 @@ use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
+use Dontdrinkandroot\Common\Asserted;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -29,7 +30,7 @@ class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInter
         $context = $this->decoratedBuilder->createFromRequest($request, $normalization, $extractedAttributes);
         $apiRequest = new ApiRequest($request);
 
-        $groups = $context[AbstractNormalizer::GROUPS] ?? null;
+        $groups = Asserted::arrayOrNull($context[AbstractNormalizer::GROUPS] ?? null);
         foreach ($this->groupsMappers as $groupsMapper) {
             if ($groupsMapper->supports($apiRequest, $normalization)) {
                 if (null === $groups) {
