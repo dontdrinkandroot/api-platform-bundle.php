@@ -74,9 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -87,9 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getRoles(): array
     {
         $roles = ['ROLE_USER'];
@@ -100,17 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $roles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function eraseCredentials(): void
     {
         /* Noop */

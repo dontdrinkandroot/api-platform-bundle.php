@@ -5,12 +5,11 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\Departme
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
+use Override;
 
 class DepartmentManagement extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function load(ObjectManager $manager): void
     {
         $department = new Department('Management');

@@ -8,23 +8,20 @@ use Doctrine\Persistence\ObjectManager;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\Department\DepartmentAccounting;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
+use Override;
 
 class UserOne extends Fixture implements DependentFixtureInterface
 {
-    final public const USERNAME = 'userone';
-    final public const PASSWORD = self::USERNAME;
+    final public const string USERNAME = 'userone';
+    final public const string PASSWORD = self::USERNAME;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getDependencies(): array
     {
         return [DepartmentAccounting::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function load(ObjectManager $manager): void
     {
         $user = new User(

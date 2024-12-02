@@ -5,12 +5,11 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute;
 use ApiPlatform\Metadata\Operation;
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\Common\Asserted;
+use Override;
 
 abstract class AbstractAttributesMapper implements AttributesMapperInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function map(ApiRequest $apiRequest, bool $normalization): array
     {
         $operation = Asserted::notNull($apiRequest->getOperation());

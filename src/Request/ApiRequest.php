@@ -16,14 +16,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ApiRequest
 {
-    final const ATTRIBUTE_ID = 'id';
-    final const ATTRIBUTE_DATA = 'data';
-    final const ATTRIBUTE_PREVIOUS_DATA = 'previous_data';
-    final const ATTRIBUTE_API_OPERATION = '_api_operation';
-    final const ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
-    final const ATTRIBUTE_ROUTE = '_route';
-    final const ATTRIBUTE_API_HAS_COMPOSITE_IDENTIFIER = '_api_has_composite_identifier';
-    final const ATTRIBUTE_API_OPERATION_NAME = '_api_operation_name';
+    final const string ATTRIBUTE_ID = 'id';
+    final const string ATTRIBUTE_DATA = 'data';
+    final const string ATTRIBUTE_PREVIOUS_DATA = 'previous_data';
+    final const string ATTRIBUTE_API_OPERATION = '_api_operation';
+    final const string ATTRIBUTE_API_RESOURCE_CLASS = '_api_resource_class';
+    final const string ATTRIBUTE_ROUTE = '_route';
+    final const string ATTRIBUTE_API_HAS_COMPOSITE_IDENTIFIER = '_api_has_composite_identifier';
+    final const string ATTRIBUTE_API_OPERATION_NAME = '_api_operation_name';
 
     public function __construct(public readonly Request $request)
     {

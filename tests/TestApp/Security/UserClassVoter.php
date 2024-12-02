@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 use Dontdrinkandroot\Common\CrudOperation;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -12,9 +13,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 class UserClassVoter extends Voter
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function supports(string $attribute, $subject): bool
     {
         $crudOperation = CrudOperation::tryFrom($attribute);
@@ -22,9 +21,7 @@ class UserClassVoter extends Voter
             && CrudOperation::READ === $crudOperation;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $crudOperation = CrudOperation::tryFrom($attribute);

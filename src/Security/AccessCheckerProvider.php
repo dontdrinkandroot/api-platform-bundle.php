@@ -42,7 +42,7 @@ class AccessCheckerProvider implements ProviderInterface
             return $this->decorated->provide($operation, $uriVariables, $context);
         }
 
-        $crudOperation = match (get_class($operation)) {
+        $crudOperation = match ($operation::class) {
             GetCollection::class => CrudOperation::LIST,
             Post::class => CrudOperation::CREATE,
             Get::class => CrudOperation::READ,
@@ -67,7 +67,7 @@ class AccessCheckerProvider implements ProviderInterface
 
         $data = $this->decorated->provide($operation, $uriVariables, $context);
 
-        $crudOperation = match (get_class($operation)) {
+        $crudOperation = match ($operation::class) {
             GetCollection::class => CrudOperation::LIST,
             Post::class => CrudOperation::CREATE,
             Get::class => CrudOperation::READ,

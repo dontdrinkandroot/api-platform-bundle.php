@@ -9,20 +9,17 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserAdmin
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserOne;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Group;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
+use Override;
 
 class GroupOne extends Fixture implements DependentFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getDependencies(): array
     {
         return [UserAdmin::class, UserOne::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function load(ObjectManager $manager): void
     {
         $group = new Group();

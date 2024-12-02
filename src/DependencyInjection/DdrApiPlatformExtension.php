@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\ApiPlatformBundle\DependencyInjection;
 
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
 use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
+use Override;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
@@ -11,12 +12,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrApiPlatformExtension extends Extension
 {
-    final public const TAG_GROUPS_MAPPER = 'ddr_api_platform.groups_mapper';
-    final public const TAG_ATTRIBUTES_MAPPER = 'ddr_api_platform.attributes_mapper';
+    final public const string TAG_GROUPS_MAPPER = 'ddr_api_platform.groups_mapper';
+    final public const string TAG_ATTRIBUTES_MAPPER = 'ddr_api_platform.attributes_mapper';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();

@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Security;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\Common\Asserted;
+use Override;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -14,11 +15,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 abstract class ApiVoter extends Voter
 {
-    public const SECURITY_ATTRIBUTE = 'ddr_api_access';
+    public const string SECURITY_ATTRIBUTE = 'ddr_api_access';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         if ($attribute !== self::SECURITY_ATTRIBUTE) {
@@ -34,9 +33,7 @@ abstract class ApiVoter extends Voter
         return $this->supportsOperation($apiRequest, $subject);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $apiAttributes = new ApiRequest(Asserted::instanceOf($subject, RequestEvent::class)->getRequest());

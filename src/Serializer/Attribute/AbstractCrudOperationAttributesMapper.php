@@ -4,14 +4,13 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute;
 
 use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\Common\CrudOperation;
+use Override;
 
 abstract class AbstractCrudOperationAttributesMapper implements AttributesMapperInterface
 {
-    private const WRITE_OPERATIONS = [CrudOperation::CREATE, CrudOperation::UPDATE, CrudOperation::DELETE];
+    private const array WRITE_OPERATIONS = [CrudOperation::CREATE, CrudOperation::UPDATE, CrudOperation::DELETE];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function map(ApiRequest $apiRequest, bool $normalization): array
     {
         $crudOperation = $apiRequest->getCrudOperation();
