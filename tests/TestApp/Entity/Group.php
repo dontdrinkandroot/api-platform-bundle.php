@@ -18,6 +18,7 @@ class Group
     #[ORM\Column]
     private ?int $id = null;
 
+    /** @var Collection<array-key,User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groups')]
     public Collection $users;
 

@@ -12,7 +12,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
     use ApiTestTrait;
 
     /**
-     * @psalm-suppress InternalMethod
+     * @param class-string[] $classNames
      */
     protected static function loadFixtures(array $classNames = []): ReferenceRepository
     {
@@ -22,7 +22,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
     }
 
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $class
      * @return T
      */

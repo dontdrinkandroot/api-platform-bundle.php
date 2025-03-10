@@ -20,6 +20,6 @@ class AdminVoter extends Voter
     #[Override]
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        return in_array('ROLE_ADMIN', $token->getRoleNames());
+        return in_array('ROLE_ADMIN', $token->getRoleNames(), true);
     }
 }

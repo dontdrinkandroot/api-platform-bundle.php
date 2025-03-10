@@ -24,10 +24,6 @@ class UserClassVoter extends Voter
     #[Override]
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        $crudOperation = CrudOperation::tryFrom($attribute);
-        return match ($crudOperation) {
-            CrudOperation::READ => null !== $token->getUser(),
-            default => false,
-        };
+        return null !== $token->getUser();
     }
 }

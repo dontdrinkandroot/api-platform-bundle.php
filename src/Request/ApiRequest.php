@@ -80,7 +80,9 @@ class ApiRequest
     }
 
     /**
-     * Checks if the Request handles one of the given resource classes
+     * Checks if the Request handles one of the given resource classes.
+     *
+     * @param class-string[] $resourceClasses
      */
     public function handlesOneOfTheResourceClasses(array $resourceClasses, bool $checkDataClass = false): bool
     {
@@ -103,6 +105,9 @@ class ApiRequest
         return $this->getRoute() === $route;
     }
 
+    /**
+     * @param string[] $routes
+     */
     public function handlesOneOfTheRoutes(array $routes): bool
     {
         foreach ($routes as $route) {
@@ -119,7 +124,7 @@ class ApiRequest
      *
      * @param class-string|null $resourceClass
      */
-    public function isCreateOrUpdate(string $resourceClass = null, bool $checkDataClass = true): bool
+    public function isCreateOrUpdate(?string $resourceClass = null, bool $checkDataClass = true): bool
     {
         return $this->isCollectionPost($resourceClass, $checkDataClass)
             || $this->isItemPut($resourceClass, $checkDataClass);
@@ -128,7 +133,7 @@ class ApiRequest
     /**
      * @param class-string|null $resourceClass
      */
-    public function isCollectionGet(string $resourceClass = null): bool
+    public function isCollectionGet(?string $resourceClass = null): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass)) {
             return false;
@@ -141,7 +146,7 @@ class ApiRequest
      * @param class-string|null $resourceClass
      *
      */
-    public function isCollectionPost(string $resourceClass = null, bool $checkDataClass = true): bool
+    public function isCollectionPost(?string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
             return false;
@@ -154,7 +159,7 @@ class ApiRequest
      * @param class-string|null $resourceClass
      *
      */
-    public function isItemGet(string $resourceClass = null, bool $checkDataClass = true): bool
+    public function isItemGet(?string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
             return false;
@@ -167,7 +172,7 @@ class ApiRequest
      * @param class-string|null $resourceClass
      *
      */
-    public function isItemPut(string $resourceClass = null, bool $checkDataClass = true): bool
+    public function isItemPut(?string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
             return false;
@@ -180,7 +185,7 @@ class ApiRequest
      * @param class-string|null $resourceClass
      *
      */
-    public function isItemDelete(string $resourceClass = null, bool $checkDataClass = true): bool
+    public function isItemDelete(?string $resourceClass = null, bool $checkDataClass = true): bool
     {
         if (null !== $resourceClass && !$this->handlesResourceClass($resourceClass, $checkDataClass)) {
             return false;

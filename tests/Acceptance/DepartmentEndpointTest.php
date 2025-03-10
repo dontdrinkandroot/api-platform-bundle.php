@@ -23,7 +23,7 @@ class DepartmentEndpointTest extends AbstractAcceptanceTest
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
             []
         );
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPost(): void
@@ -39,8 +39,8 @@ class DepartmentEndpointTest extends AbstractAcceptanceTest
                 'name' => 'Test Department',
             ]
         );
-        $content = $this->assertJsonResponse($response, Response::HTTP_CREATED);
-        $this->assertEquals([
+        $content = self::assertJsonResponse($response, Response::HTTP_CREATED);
+        self::assertEquals([
             'id' => 2,
             'name' => 'Test Department'
         ], $content);
@@ -59,8 +59,8 @@ class DepartmentEndpointTest extends AbstractAcceptanceTest
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
         );
-        $content = $this->assertJsonResponse($response, Response::HTTP_OK);
-        $this->assertEquals([
+        $content = self::assertJsonResponse($response, Response::HTTP_OK);
+        self::assertEquals([
             [
                 'id' => 2,
                 'username' => 'userone',

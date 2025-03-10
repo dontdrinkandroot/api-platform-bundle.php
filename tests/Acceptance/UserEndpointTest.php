@@ -17,7 +17,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonPost($client, '/users', [], [], []);
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testPostForbidden(): void
@@ -31,7 +31,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
             $this->addBasicAuthorizationHeader(UserOne::USERNAME, UserOne::PASSWORD),
             []
         );
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
     public function testPutUnauthorized(): void
@@ -39,7 +39,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonPut($client, '/users/1', [], [], []);
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testPutForbidden(): void
@@ -53,7 +53,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
             $this->addBasicAuthorizationHeader(UserOne::USERNAME, UserOne::PASSWORD),
             []
         );
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
     public function testDeleteUnauthorized(): void
@@ -61,7 +61,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonDelete($client, '/users/1', [], []);
-        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testDeleteForbidden(): void
@@ -74,7 +74,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
             [],
             $this->addBasicAuthorizationHeader(UserOne::USERNAME, UserOne::PASSWORD)
         );
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
     public function testPostWithMissingFields(): void
@@ -82,7 +82,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
         $response = $this->jsonPost($client, '/users', [], $this->addBasicAuthorizationHeader('admin', 'admin'), []);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPost(): void
@@ -102,8 +102,8 @@ class UserEndpointTest extends AbstractAcceptanceTest
                 'admin' => true
             ]
         );
-        $content = $this->assertJsonResponse($response, Response::HTTP_CREATED);
-        $this->assertEquals([
+        $content = self::assertJsonResponse($response, Response::HTTP_CREATED);
+        self::assertEquals([
             'id' => 3,
             'username' => 'username',
             'roles' => ['ROLE_USER', 'ROLE_ADMIN']
@@ -126,8 +126,8 @@ class UserEndpointTest extends AbstractAcceptanceTest
                 'admin' => false
             ]
         );
-        $content = $this->assertJsonResponse($response);
-        $this->assertEquals([
+        $content = self::assertJsonResponse($response);
+        self::assertEquals([
             'id' => $user->getId(),
             'username' => 'new-username',
             'roles' => ['ROLE_USER']
@@ -145,8 +145,8 @@ class UserEndpointTest extends AbstractAcceptanceTest
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD),
         );
-        $content = $this->assertJsonResponse($response);
-        $this->assertEquals([
+        $content = self::assertJsonResponse($response);
+        self::assertEquals([
             'id' => $user->getId(),
             'username' => $user->getUserIdentifier(),
             'roles' => $user->getRoles()
@@ -156,7 +156,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
     public function testDelete(): void
     {
         $client = self::createClient();
-        $referenceRepository = $this->loadFixtures([Users::class]);
+        $referenceRepository = self::loadFixtures([Users::class]);
         $user = $referenceRepository->getReference(UserOne::class, User::class);
 
         $id = $user->getId();
@@ -167,7 +167,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD)
         );
-        $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
+        self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
 
         $response = $this->jsonGet(
             $client,
@@ -175,6 +175,6 @@ class UserEndpointTest extends AbstractAcceptanceTest
             [],
             $this->addBasicAuthorizationHeader(UserAdmin::USERNAME, UserAdmin::PASSWORD)
         );
-        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

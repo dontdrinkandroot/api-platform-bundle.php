@@ -8,6 +8,6 @@ interface GroupsMapperInterface
 {
     public function supports(ApiRequest $apiRequest, bool $normalization): bool;
 
-    /** @return array<string, string|array> */
+    /** @return array<string, mixed> */
     public function map(ApiRequest $apiRequest, bool $normalization): array;
 }

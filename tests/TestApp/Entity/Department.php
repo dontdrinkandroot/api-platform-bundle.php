@@ -20,6 +20,7 @@ class Department
     #[ORM\Column]
     private ?int $id = null;
 
+    /** @var Collection<array-key,User> */
     #[ORM\OneToMany(mappedBy: 'department', targetEntity: User::class)]
     public Collection $users;
 

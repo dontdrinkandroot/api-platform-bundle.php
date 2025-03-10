@@ -24,8 +24,11 @@ class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInter
     ) {
     }
 
+    /**
+     * @param mixed[]|null $extractedAttributes
+     */
     #[Override]
-    public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
+    public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array
     {
         $context = $this->decoratedBuilder->createFromRequest($request, $normalization, $extractedAttributes);
         $apiRequest = new ApiRequest($request);
@@ -43,6 +46,7 @@ class GroupsAndAttributesContextBuilder implements SerializerContextBuilderInter
             $context[AbstractNormalizer::GROUPS] = $groups;
         }
 
+        /** @phpstan-ignore nullCoalesce.offset */
         $attributes = $context[AbstractNormalizer::ATTRIBUTES] ?? null;
         foreach ($this->attributesMappers as $attributesMapper) {
             if ($attributesMapper->supports($apiRequest, $normalization)) {

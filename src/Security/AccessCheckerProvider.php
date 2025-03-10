@@ -85,7 +85,7 @@ class AccessCheckerProvider implements ProviderInterface
         }
 
         /* Check if operation is allowed with data after denormalization */
-        if (in_array($this->event, ['post_denormalize', 'post_validate'])) {
+        if (in_array($this->event, ['post_denormalize', 'post_validate'], true)) {
             if (CrudOperation::CREATE === $crudOperation) {
                 if (!$this->authorizationChecker->isGranted(CrudOperation::CREATE->value, $data)) {
                     throw new AccessDeniedException();

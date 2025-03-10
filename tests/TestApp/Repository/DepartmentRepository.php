@@ -6,6 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 
+/**
+ * @extends ServiceEntityRepository<Department>
+ */
 class DepartmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

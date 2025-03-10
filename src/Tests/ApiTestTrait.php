@@ -11,18 +11,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 trait ApiTestTrait
 {
+    /** @var string[] */
     protected array $acceptedJsonContentTypes = [
         'application/json',
         'application/json; charset=utf-8',
         'application/problem+json; charset=utf-8',
     ];
 
+    /** @var string[] */
     protected array $acceptedJsonLdContentTypes = [
         'application/ld+json',
         'application/ld+json; charset=utf-8',
         'application/problem+json; charset=utf-8',
     ];
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     */
     protected function jsonGet(
         KernelBrowser $client,
         string $uri,
@@ -32,6 +38,12 @@ trait ApiTestTrait
         return $this->jsonRequest($client, Request::METHOD_GET, $uri, $parameters, $headers);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonPut(
         KernelBrowser $client,
         string $uri,
@@ -43,6 +55,12 @@ trait ApiTestTrait
         return $this->jsonRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonPost(
         KernelBrowser $client,
         string $uri,
@@ -54,6 +72,11 @@ trait ApiTestTrait
         return $this->jsonRequest($client, Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     */
     protected function jsonDelete(
         KernelBrowser $client,
         string $uri,
@@ -64,6 +87,12 @@ trait ApiTestTrait
         return $this->jsonRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonRequest(
         KernelBrowser $client,
         string $method,
@@ -85,6 +114,10 @@ trait ApiTestTrait
         return $client->getResponse();
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     */
     protected function jsonLdGet(
         KernelBrowser $client,
         string $uri,
@@ -94,6 +127,12 @@ trait ApiTestTrait
         return $this->jsonLdRequest($client, Request::METHOD_GET, $uri, $parameters, $headers);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonLdPut(
         KernelBrowser $client,
         string $uri,
@@ -105,6 +144,12 @@ trait ApiTestTrait
         return $this->jsonLdRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonLdPost(
         KernelBrowser $client,
         string $uri,
@@ -116,6 +161,11 @@ trait ApiTestTrait
         return $this->jsonLdRequest($client, Request::METHOD_POST, $uri, $parameters, $headers, $content, $files);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     */
     protected function jsonLdDelete(
         KernelBrowser $client,
         string $uri,
@@ -126,6 +176,12 @@ trait ApiTestTrait
         return $this->jsonLdRequest($client, Request::METHOD_DELETE, $uri, $parameters, $headers, $content);
     }
 
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonLdRequest(
         KernelBrowser $client,
         string $method,
@@ -147,6 +203,9 @@ trait ApiTestTrait
         return $client->getResponse();
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function assertJsonResponse(Response $response, int $statusCode = 200): array
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
@@ -166,6 +225,9 @@ trait ApiTestTrait
         return $decodedContent;
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function assertJsonLdResponse(Response $response, int $statusCode = 200): array
     {
         if (Response::HTTP_NO_CONTENT !== $statusCode) {
@@ -207,6 +269,9 @@ trait ApiTestTrait
         return false;
     }
 
+    /**
+     * @param mixed[]|null $content
+     */
     protected function jsonEncodeContent(?array $content): ?string
     {
         if (null === $content) {
@@ -216,6 +281,10 @@ trait ApiTestTrait
         return json_encode($content, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @param mixed[] $headers
+     * @return mixed[]
+     */
     protected function transformJsonHeaders(array $headers): array
     {
         $transformedHeaders = [
@@ -233,6 +302,10 @@ trait ApiTestTrait
         return $transformedHeaders;
     }
 
+    /**
+     * @param mixed[] $headers
+     * @return mixed[]
+     */
     protected function transformJsonLdHeaders(array $headers): array
     {
         $transformedHeaders = [
@@ -250,6 +323,10 @@ trait ApiTestTrait
         return $transformedHeaders;
     }
 
+    /**
+     * @param mixed[] $headers
+     * @return mixed[]
+     */
     protected function addJwtAuthorizationHeader(UserInterface $user, array $headers = []): array
     {
         $token = $this->createJwtToken($user);
@@ -260,9 +337,14 @@ trait ApiTestTrait
 
     protected function createJwtToken(UserInterface $user): string
     {
+        /** @phpstan-ignore method.notFound */
         return self::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
     }
 
+    /**
+     * @param mixed[] $headers
+     * @return mixed[]
+     */
     protected function addBasicAuthorizationHeader(string $userName, string $password, array $headers = []): array
     {
         $headers['PHP_AUTH_USER'] = $userName;
@@ -271,6 +353,9 @@ trait ApiTestTrait
         return $headers;
     }
 
+    /**
+     * @param mixed[] $array
+     */
     protected static function assertArrayHasKeyAndUnset(string|int $key, array &$array, string $message = ''): mixed
     {
         Assert::assertArrayHasKey($key, $array, $message);

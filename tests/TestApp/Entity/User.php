@@ -31,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    /** @var Collection<array-key,Group> */
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'users')]
     public Collection $groups;
 

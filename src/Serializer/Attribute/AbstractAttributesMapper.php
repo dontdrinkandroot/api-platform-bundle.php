@@ -20,7 +20,13 @@ abstract class AbstractAttributesMapper implements AttributesMapperInterface
         return $this->mapDenormalization($operation, $apiRequest);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     abstract protected function mapNormalization(Operation $operation, ApiRequest $apiRequest): array;
 
+    /**
+     * @return array<string, mixed>
+     */
     abstract protected function mapDenormalization(Operation $operation, ApiRequest $apiRequest): array;
 }
