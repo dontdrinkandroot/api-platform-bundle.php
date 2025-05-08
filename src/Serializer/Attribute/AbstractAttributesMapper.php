@@ -21,12 +21,12 @@ abstract class AbstractAttributesMapper implements AttributesMapperInterface
     }
 
     /**
-     * @return (string|array<string,string|array<string,string|array<string,mixed>>>)[]
+     * @return array<string|int, string|array<string|int, string|array<string|int, string|array<string|int, mixed>>>>
      */
     abstract protected function mapNormalization(Operation $operation, ApiRequest $apiRequest): array;
 
     /**
-     * @return (string|array<string,string|array<string,string|array<string,mixed>>>)[]
+     * @return array<string|int, string|array<string|int, string|array<string|int, string|array<string|int, mixed>>>>
      */
     abstract protected function mapDenormalization(Operation $operation, ApiRequest $apiRequest): array;
 }
