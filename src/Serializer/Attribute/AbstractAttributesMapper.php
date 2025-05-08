@@ -7,9 +7,6 @@ use Dontdrinkandroot\ApiPlatformBundle\Request\ApiRequest;
 use Dontdrinkandroot\Common\Asserted;
 use Override;
 
-/**
- * @phpstan-type AttributePath string|AttributePath[]
- */
 abstract class AbstractAttributesMapper implements AttributesMapperInterface
 {
     #[Override]
@@ -24,12 +21,12 @@ abstract class AbstractAttributesMapper implements AttributesMapperInterface
     }
 
     /**
-     * @return AttributePath[]
+     * @return (string|array<string,(string|array<string, array<string,(string|array<string, mixed>)>>)>)[]
      */
     abstract protected function mapNormalization(Operation $operation, ApiRequest $apiRequest): array;
 
     /**
-     * @return AttributePath[]
+     * @return (string|array<string,(string|array<string, array<string,(string|array<string, mixed>)>>)>)[]
      */
     abstract protected function mapDenormalization(Operation $operation, ApiRequest $apiRequest): array;
 }
