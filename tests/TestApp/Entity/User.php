@@ -13,6 +13,7 @@ use Override;
 use RuntimeException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ApiResource]
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
     uriTemplate: '/departments/{departmentId}/users',
     operations: [new GetCollection()],
     uriVariables: [
-        'departmentId' => new Link(fromClass: Department::class, toProperty: 'department'),
+        'departmentId' => new Link(toProperty: 'department', fromClass: Department::class),
     ]
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -29,6 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:list', 'user:read'])]
     private ?int $id = null;
 
     /** @var Collection<array-key,Group> */
@@ -38,17 +40,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct(
         #[ORM\Column]
         #[NotBlank]
+        #[Groups(['user:list', 'user:read', 'user:create', 'user:update'])]
         private string $username,
 
         #[ORM\Column]
         #[NotBlank]
+        #[Groups(['user:create'])]
         private string $password,
 
         #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'users')]
         #[ORM\JoinColumn(nullable: false)]
+        #[Groups(['user:create'])]
         public Department $department,
 
         #[ORM\Column]
+        #[Groups(['user:create', 'user:update'])]
         private bool $admin = false,
     ) {
         $this->groups = new ArrayCollection();
@@ -86,6 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
+    #[Groups(['user:list', 'user:read'])]
     #[Override]
     public function getRoles(): array
     {

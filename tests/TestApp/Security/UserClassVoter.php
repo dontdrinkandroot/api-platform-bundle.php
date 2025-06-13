@@ -17,8 +17,7 @@ class UserClassVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         $crudOperation = CrudOperation::tryFrom($attribute);
-        return is_a($subject, User::class)
-            && CrudOperation::READ === $crudOperation;
+        return is_a($subject, User::class) && CrudOperation::READ === $crudOperation;
     }
 
     #[Override]

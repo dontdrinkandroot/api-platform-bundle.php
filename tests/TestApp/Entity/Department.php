@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\DepartmentRepository;
 use RuntimeException;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource]
@@ -18,6 +19,7 @@ class Department
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['department:list', 'department:read'])]
     private ?int $id = null;
 
     /** @var Collection<array-key,User> */
@@ -27,6 +29,7 @@ class Department
     public function __construct(
         #[Assert\NotBlank]
         #[ORM\Column(type: Types::STRING, nullable: false)]
+        #[Groups(['department:create', 'department:list', 'department:read'])]
         public string $name
     ) {
         $this->users = new ArrayCollection();

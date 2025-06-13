@@ -23,8 +23,8 @@
         }
     },
     "require": {
-        "php": ">=8.3",
-        "api-platform/core": "^3.2",
+        "php": ">=8.4",
+        "api-platform/symfony": "4.1.15",
         "dontdrinkandroot/common": "^0.3",
         "symfony/config": "^6.4",
         "symfony/dependency-injection": "^6.4",
@@ -32,10 +32,11 @@
         "symfony/yaml": "^6.4"
     },
     "require-dev": {
+        "api-platform/doctrine-orm": "^4.1",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/orm": "^2.16",
-        "dontdrinkandroot/symfony-version-enforcer": "^0.1.0",
+        "dontdrinkandroot/symfony-version-enforcer": "^0.1.1",
         "liip/test-fixtures-bundle": "^2.5",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.1",

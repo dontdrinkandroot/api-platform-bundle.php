@@ -11,6 +11,7 @@ use RuntimeException;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
+#[ORM\Table("'group'")]
 class Group
 {
     #[ORM\Id]

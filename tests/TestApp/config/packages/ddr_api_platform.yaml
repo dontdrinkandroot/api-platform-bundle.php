@@ -1,3 +1,4 @@
-#ddr_api_platform:
-#    serializer:
-#        operation_groups_enabled: true
+ddr_api_platform:
+    serializer:
+        auto_group_prefixes:
+            - Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\

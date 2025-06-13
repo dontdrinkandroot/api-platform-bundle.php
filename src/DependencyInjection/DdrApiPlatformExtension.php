@@ -2,8 +2,7 @@
 
 namespace Dontdrinkandroot\ApiPlatformBundle\DependencyInjection;
 
-use Dontdrinkandroot\ApiPlatformBundle\Serializer\Attribute\AttributesMapperInterface;
-use Dontdrinkandroot\ApiPlatformBundle\Serializer\Group\GroupsMapperInterface;
+use Dontdrinkandroot\ApiPlatformBundle\Model\DependencyInjection\ParamName;
 use Override;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,16 +26,10 @@ class DdrApiPlatformExtension extends Extension
         if (true === $config['security']) {
             $loader->load('security.php');
         }
-        if (true === $config['serializer']) {
+
+        if (true === $config['serializer']['enabled']) {
             $loader->load('serializer.php');
-
-            $container
-                ->registerForAutoconfiguration(GroupsMapperInterface::class)
-                ->addTag(self::TAG_GROUPS_MAPPER);
-
-            $container
-                ->registerForAutoconfiguration(AttributesMapperInterface::class)
-                ->addTag(self::TAG_ATTRIBUTES_MAPPER);
+            $container->setParameter(ParamName::DDR_API_PLATFORM_AUTO_GROUP_PREFIXES, $config['serializer']['auto_group_prefixes']);
         }
     }
 }

@@ -34,19 +34,19 @@ class UserEndpointTest extends AbstractAcceptanceTest
         self::assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
-    public function testPutUnauthorized(): void
+    public function testPatchUnauthorized(): void
     {
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
-        $response = $this->jsonPut($client, '/users/1', [], [], []);
+        $response = $this->jsonPatch($client, '/users/1', [], [], []);
         self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    public function testPutForbidden(): void
+    public function testPatchForbidden(): void
     {
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
-        $response = $this->jsonPut(
+        $response = $this->jsonPatch(
             $client,
             '/users/1',
             [],
@@ -110,12 +110,12 @@ class UserEndpointTest extends AbstractAcceptanceTest
         ], $content);
     }
 
-    public function testPut(): void
+    public function testPatch(): void
     {
         $client = self::createClient();
         $referenceRepository = self::loadFixtures([Users::class]);
         $user = $referenceRepository->getReference(UserOne::class, User::class);
-        $response = $this->jsonPut(
+        $response = $this->jsonPatch(
             $client,
             sprintf('/users/%d', $user->getId()),
             [],
@@ -137,6 +137,7 @@ class UserEndpointTest extends AbstractAcceptanceTest
     public function testGet(): void
     {
         $client = self::createClient();
+        $client->catchExceptions(false);
         $referenceRepository = self::loadFixtures([Users::class]);
         $user = $referenceRepository->getReference(UserOne::class, User::class);
         $response = $this->jsonGet(

@@ -61,6 +61,31 @@ trait ApiTestTrait
      * @param mixed[]|null $content
      * @param mixed[] $files
      */
+    protected function jsonPatch(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null,
+        array $files = []
+    ): Response {
+        return $this->jsonRequest(
+            $client,
+            Request::METHOD_PATCH,
+            $uri,
+            $parameters,
+            ['CONTENT_TYPE' => 'application/merge-patch+json'] + $headers,
+            $content,
+            $files
+        );
+    }
+
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
     protected function jsonPost(
         KernelBrowser $client,
         string $uri,
@@ -142,6 +167,31 @@ trait ApiTestTrait
         array $files = []
     ): Response {
         return $this->jsonLdRequest($client, Request::METHOD_PUT, $uri, $parameters, $headers, $content, $files);
+    }
+
+    /**
+     * @param mixed[] $parameters
+     * @param mixed[] $headers
+     * @param mixed[]|null $content
+     * @param mixed[] $files
+     */
+    protected function jsonLdPatch(
+        KernelBrowser $client,
+        string $uri,
+        array $parameters = [],
+        array $headers = [],
+        ?array $content = null,
+        array $files = []
+    ): Response {
+        return $this->jsonLdRequest(
+            $client,
+            Request::METHOD_PATCH,
+            $uri,
+            $parameters,
+            ['CONTENT_TYPE' => 'application/merge-patch+json'] + $headers,
+            $content,
+            $files
+        );
     }
 
     /**

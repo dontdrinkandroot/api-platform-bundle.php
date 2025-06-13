@@ -17,7 +17,16 @@ class Configuration implements ConfigurationInterface
         // @formatter:off
         $rootNode->children()
             ->booleanNode('security')->defaultTrue()->end()
-            ->booleanNode('serializer')->defaultTrue()->end()
+            ->arrayNode('serializer')
+                ->canBeDisabled()
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('auto_group_prefixes')
+                        ->defaultValue(['App\\Entity\\', 'App\\ApiResource\\'])
+                        ->scalarPrototype()->end()
+                    ->end()
+                ->end()
+            ->end()
         ->end();
         // @formatter:on
 
