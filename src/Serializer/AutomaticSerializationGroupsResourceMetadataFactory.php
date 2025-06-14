@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use Dontdrinkandroot\Common\ClassNameUtils;
 use Dontdrinkandroot\Common\CrudOperation;
 use Override;
 use ReflectionClass;
@@ -79,7 +80,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
      */
     private function getResourceShortName(string $resourceClass): string
     {
-        return strtolower((new ReflectionClass($resourceClass))->getShortName());
+        return ClassNameUtils::getTableizedShortName($resourceClass);
     }
 
     /**
