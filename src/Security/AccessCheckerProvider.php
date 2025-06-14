@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProviderInterface;
@@ -46,7 +47,8 @@ class AccessCheckerProvider implements ProviderInterface
             GetCollection::class => CrudOperation::LIST,
             Post::class => CrudOperation::CREATE,
             Get::class => CrudOperation::READ,
-            Put::class => CrudOperation::UPDATE,
+            Put::class, Patch::class => CrudOperation::UPDATE,
+            Delete::class => CrudOperation::DELETE,
             default => null,
         };
 
@@ -71,7 +73,7 @@ class AccessCheckerProvider implements ProviderInterface
             GetCollection::class => CrudOperation::LIST,
             Post::class => CrudOperation::CREATE,
             Get::class => CrudOperation::READ,
-            Put::class => CrudOperation::UPDATE,
+            Put::class, Patch::class => CrudOperation::UPDATE,
             Delete::class => CrudOperation::DELETE,
             default => null,
         };
