@@ -13,6 +13,6 @@ class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, GroupRepository::class);
+        parent::__construct($registry, Group::class);
     }
 }

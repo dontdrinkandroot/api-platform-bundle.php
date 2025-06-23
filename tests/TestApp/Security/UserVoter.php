@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * @extends Voter<'READ',User>
  */
-class UserClassVoter extends Voter
+class UserVoter extends Voter
 {
     #[Override]
     protected function supports(string $attribute, $subject): bool

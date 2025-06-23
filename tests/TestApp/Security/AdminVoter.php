@@ -5,21 +5,17 @@ namespace Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Security;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-/**
- * @extends Voter<string,mixed>
- */
-class AdminVoter extends Voter
+class AdminVoter implements VoterInterface
 {
     #[Override]
-    protected function supports(string $attribute, mixed $subject): bool
+    public function vote(TokenInterface $token, mixed $subject, array $attributes)
     {
-        return true;
-    }
+        if (in_array('ROLE_ADMIN', $token->getRoleNames(), true)) {
+            return Voter::ACCESS_GRANTED;
+        }
 
-    #[Override]
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
-    {
-        return in_array('ROLE_ADMIN', $token->getRoleNames(), true);
+        return Voter::ACCESS_ABSTAIN;
     }
 }

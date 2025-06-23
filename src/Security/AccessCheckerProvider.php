@@ -54,14 +54,8 @@ class AccessCheckerProvider implements ProviderInterface
 
         /* Check if operation is allowed without data */
         if (null === $this->event) {
-            if (CrudOperation::LIST === $crudOperation) {
-                if (!$this->authorizationChecker->isGranted(CrudOperation::LIST->value, $operation->getClass())) {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            if (CrudOperation::CREATE === $crudOperation) {
-                if (!$this->authorizationChecker->isGranted(CrudOperation::CREATE->value, $operation->getClass())) {
+            if (in_array($crudOperation, [CrudOperation::LIST, CrudOperation::CREATE], true)) {
+                if (!$this->authorizationChecker->isGranted($crudOperation->value, $operation->getClass())) {
                     throw new AccessDeniedException();
                 }
             }
@@ -69,32 +63,15 @@ class AccessCheckerProvider implements ProviderInterface
 
         $data = $this->decorated->provide($operation, $uriVariables, $context);
 
-        $crudOperation = match ($operation::class) {
-            GetCollection::class => CrudOperation::LIST,
-            Post::class => CrudOperation::CREATE,
-            Get::class => CrudOperation::READ,
-            Put::class, Patch::class => CrudOperation::UPDATE,
-            Delete::class => CrudOperation::DELETE,
-            default => null,
-        };
-
         if (null === $this->event) {
-            if (CrudOperation::DELETE === $crudOperation) {
-                if (!$this->authorizationChecker->isGranted(CrudOperation::DELETE->value, $data)) {
+            if (in_array($crudOperation, [CrudOperation::DELETE, CrudOperation::READ], true)) {
+                if (!$this->authorizationChecker->isGranted($crudOperation->value, $data)) {
                     throw new AccessDeniedException();
                 }
             }
-        }
-
-        /* Check if operation is allowed with data after denormalization */
-        if (in_array($this->event, ['post_denormalize', 'post_validate'], true)) {
-            if (CrudOperation::CREATE === $crudOperation) {
-                if (!$this->authorizationChecker->isGranted(CrudOperation::CREATE->value, $data)) {
-                    throw new AccessDeniedException();
-                }
-            }
-            if (CrudOperation::UPDATE === $crudOperation) {
-                if (!$this->authorizationChecker->isGranted(CrudOperation::UPDATE->value, $data)) {
+        } elseif (in_array($this->event, ['post_denormalize', 'post_validate'], true)) {
+            if (in_array($crudOperation, [CrudOperation::CREATE, CrudOperation::UPDATE], true)) {
+                if (!$this->authorizationChecker->isGranted($crudOperation->value, $data)) {
                     throw new AccessDeniedException();
                 }
             }
