@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Repository\UserRepository;
+use Dontdrinkandroot\Common\Asserted;
 use Override;
 use RuntimeException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -68,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Override]
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return Asserted::nonEmptyString($this->username);
     }
 
     public function getUsername(): string

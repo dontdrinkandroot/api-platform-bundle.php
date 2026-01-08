@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Patch;
@@ -16,7 +17,6 @@ use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Dontdrinkandroot\Common\ClassNameUtils;
 use Dontdrinkandroot\Common\CrudOperation;
 use Override;
-use ReflectionClass;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 readonly class AutomaticSerializationGroupsResourceMetadataFactory implements ResourceMetadataCollectionFactoryInterface
@@ -84,7 +84,8 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
     }
 
     /**
-     * @return array<string, Operation>
+     * @param Operations<HttpOperation> $operations
+     * @return array<string, HttpOperation>
      */
     private function processOperations(Operations $operations, string $shortName): array
     {
@@ -97,7 +98,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
         return $processedOperations;
     }
 
-    private function processSingleOperation(Operation $operation, string $shortName): Operation
+    private function processSingleOperation(HttpOperation $operation, string $shortName): HttpOperation
     {
         $crudOperation = $this->resolveCrudOperation($operation);
         if ($crudOperation === null) {
@@ -113,7 +114,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
         };
     }
 
-    private function applyListGroups(Operation $operation, string $shortName): Operation
+    private function applyListGroups(HttpOperation $operation, string $shortName): HttpOperation
     {
         if ($this->hasExistingNormalizationGroups($operation)) {
             return $operation;
@@ -124,7 +125,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
         ]);
     }
 
-    private function applyCreateGroups(Operation $operation, string $shortName): Operation
+    private function applyCreateGroups(HttpOperation $operation, string $shortName): HttpOperation
     {
         $updatedOperation = $operation;
 
@@ -143,7 +144,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
         return $updatedOperation;
     }
 
-    private function applyReadGroups(Operation $operation, string $shortName): Operation
+    private function applyReadGroups(HttpOperation $operation, string $shortName): HttpOperation
     {
         if ($this->hasExistingNormalizationGroups($operation)) {
             return $operation;
@@ -154,7 +155,7 @@ readonly class AutomaticSerializationGroupsResourceMetadataFactory implements Re
         ]);
     }
 
-    private function applyUpdateGroups(Operation $operation, string $shortName): Operation
+    private function applyUpdateGroups(HttpOperation $operation, string $shortName): HttpOperation
     {
         $updatedOperation = $operation;
 

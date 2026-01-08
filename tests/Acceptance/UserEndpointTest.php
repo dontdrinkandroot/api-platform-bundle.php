@@ -10,7 +10,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserEndpointTest extends AbstractAcceptanceTest
+class UserEndpointTest extends AbstractAcceptanceTestCase
 {
     public function testPostUnauthorized(): void
     {

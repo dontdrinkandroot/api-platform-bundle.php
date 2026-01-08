@@ -7,12 +7,12 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\ApiTestTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class AbstractAcceptanceTest extends WebTestCase
+abstract class AbstractAcceptanceTestCase extends WebTestCase
 {
     use ApiTestTrait;
 
     /**
-     * @param class-string[] $classNames
+     * @param list<class-string> $classNames
      */
     protected static function loadFixtures(array $classNames = []): ReferenceRepository
     {

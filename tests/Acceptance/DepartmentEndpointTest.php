@@ -10,7 +10,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserTwo;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Department;
 use Symfony\Component\HttpFoundation\Response;
 
-class DepartmentEndpointTest extends AbstractAcceptanceTest
+class DepartmentEndpointTest extends AbstractAcceptanceTestCase
 {
     public function testPostWithMissingFields(): void
     {

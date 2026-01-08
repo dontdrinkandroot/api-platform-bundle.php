@@ -9,7 +9,7 @@ use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\DataFixtures\User\UserTwo;
 use Dontdrinkandroot\ApiPlatformBundle\Tests\TestApp\Entity\Group;
 use Symfony\Component\HttpFoundation\Response;
 
-class GroupEndpointTest extends AbstractAcceptanceTest
+class GroupEndpointTest extends AbstractAcceptanceTestCase
 {
     public function testReadProtected(): void
     {

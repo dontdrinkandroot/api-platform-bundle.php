@@ -23,32 +23,32 @@
         }
     },
     "require": {
-        "php": ">=8.4",
-        "api-platform/symfony": "^4.1.15",
+        "php": ">=8.5",
+        "api-platform/symfony": "^4.2",
         "dontdrinkandroot/common": "^0.3",
-        "symfony/config": "^6.4",
-        "symfony/dependency-injection": "^6.4",
-        "symfony/security-core": "^6.4",
-        "symfony/yaml": "^6.4"
+        "symfony/config": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/security-core": "^7.4",
+        "symfony/yaml": "^7.4"
     },
     "require-dev": {
-        "api-platform/doctrine-orm": "^4.1",
-        "doctrine/doctrine-bundle": "^2.10",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "doctrine/orm": "^2.16",
+        "api-platform/doctrine-orm": "^4.2",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "doctrine/orm": "^3.6",
         "dontdrinkandroot/symfony-version-enforcer": "^0.1.1",
-        "liip/test-fixtures-bundle": "^2.5",
+        "liip/test-fixtures-bundle": "^3.7",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
-        "phpunit/phpunit": "^9.6",
-        "symfony/browser-kit": "^6.4",
-        "symfony/framework-bundle": "^6.4",
-        "symfony/phpunit-bridge": "^6.4",
-        "symfony/security-bundle": "^6.4",
-        "symfony/validator": "^6.4"
+        "phpunit/phpunit": "^12.5",
+        "symfony/browser-kit": "^7.4",
+        "symfony/framework-bundle": "^7.4",
+        "symfony/security-bundle": "^7.4",
+        "symfony/validator": "^7.4",
+        "symfony/runtime": "^7.4"
     },
     "suggest": {
     },
@@ -56,16 +56,17 @@
         "sort-packages": true,
         "allow-plugins": {
             "dontdrinkandroot/symfony-version-enforcer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "symfony/runtime": true
         }
     },
     "extra": {
         "symfony": {
-            "require": "6.4.*",
+            "require": "7.4.*",
             "allow-contrib": true
         },
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-main": "0.5.x-dev"
         }
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class AdminVoter implements VoterInterface
 {
     #[Override]
-    public function vote(TokenInterface $token, mixed $subject, array $attributes)
+    public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
         if (in_array('ROLE_ADMIN', $token->getRoleNames(), true)) {
             return Voter::ACCESS_GRANTED;
